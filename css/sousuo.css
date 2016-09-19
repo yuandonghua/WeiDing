@@ -1,0 +1,21 @@
+#div_sousuo {
+	margin: 10px 70px 0 10px ;
+}
+
+.span_sousuo {
+	height: 30px;
+
+	position: absolute;
+	top: 56px;
+	right: 10px;
+}
+.lishi_sousuo{
+	float: left;
+}
+#li_lishi{
+	float: left;
+	margin: 10px;
+}
+#jiage{
+	color: orange;
+}

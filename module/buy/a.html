@@ -1,0 +1,128 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+
+<head>
+    <title>快讯移动商城</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
+    <meta content="telephone=no" name="format-detection" />
+    <meta content="yes" name="apple-mobile-web-app-capable" />
+    <meta content="black" name="apple-mobile-web-app-status-bar-style" />
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="cache-control" content="no-cache">
+    <meta http-equiv="expires" content="0">
+    <script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="buyStandBox.js"></script>
+    <script src="alert.js"></script>
+    <link rel="stylesheet" type="text/css" href="assets/css/buyConfirm.css" />
+
+</head>
+
+<body>
+
+    <div class="loading" style="display: none;"></div>
+    <div class="pb80" id="pages">
+        <style>
+            .p-submit a {
+                width: 48px
+            }
+            
+            .p-submit .p_sub_r {
+                width: -webkit-calc(100% - 144px)
+            }
+            
+            .compbtn {
+                border: 1px solid #e1e1e1;
+                border-radius: 5px;
+                padding: 0 8px;
+            }
+            
+            .store_boxtips {
+                z-index: 99999
+            }
+        </style>
+
+        <!--must-->
+        <input type="hidden" id="detailFormatId" name="detailFormatId" />
+        <input type="hidden" id="detailFormatJson" name="detailFormatJson" />
+        <a style="visibility:hidden; height:0px;" href="javascript:;" data-detailBox="standBox" data-boxs="standard" id="c_productDetail">
+            选择规格
+		</a>
+         <input type="hidden" id="b_productNum" value="0" />
+        <input type="hidden" id="h_productDetail" value="" />
+        <input type="hidden" id="h_productPrice" value="" />
+        <input type="hidden" id="h_productProfit" value="" />
+        <input type="hidden" id="h_productStockCount" value="" />
+        <input type="hidden" id="h_productLimitBay" value="0" />
+        <!--must end-->
+
+        <!--商品详情 start-->
+        <div class="app-product product_goods_detailinfo">
+            <div class="app-header">
+                <i class="ico_bn ico_back" onclick="history.go(-1)" style="color:#fff;left:8px"></i>
+                <h2>商品详情</h2>
+            </div>
+
+
+            <div class="func-list ui_mt10" style="padding-left:0px;">
+
+
+                <div class="p-submit">
+                    <a href="javascript:;" onclick="showImg(true,'box','e',2)">
+                        <i class="ico_bn callIntoKf" style="margin-top: 0;height:30px"><img src="/vresource/vstore/images/weixinicon.png" style="width:30px;margin-top:4px"/></i>                        微信
+                    </a>
+
+                    <a href="javascript:;" ontouchstart="window.location.href='mall/index.action?c=62&u=11248'">
+                        <i class="ico_bn ico_store"></i> 店铺
+                    </a>
+
+                    <a href="javascript:;" data-pcollect="1">
+                        <i class="ico_bn ico_sc"></i> 收藏
+                    </a>
+                    <span class="p_sub_r">
+			        
+			        <input type="button" value="加入购物车" class="btn_go_cart" onClick="addShoppingCart(this);" id="a_addToCart"/>
+			        <input type="button" value="立即购买" class="btn_go_buy" onClick="buyNow(this);" id="a_buyNow"/>
+			        
+			        </span>
+                </div>
+
+            </div>
+            <!--商品详情 end-->
+
+
+            <!--规格弹出 start-->
+            <div class="p-a-box" id="standBox" style="display: none;">
+                <div class="p-box-c">
+
+                    <span class="p-box-close" data-detailBox='standBox' data-dele="true"><i class="ico_bn ico_dele"></i></span>
+                    <div class="p-box-t">
+                        <span class="p-b-img">
+        <img id="productImgURL" src="" />
+        </span>
+                        <div class="p-b-txt">
+                            <h3 id="productPriceB" class="ui_left">￥0.0</h3>
+                            <!--<span class="prod-v-profit ui_left" id="pro_profit">消费积分：1.24V</span><br>-->
+                            <p id="productSickCount">库存0件</p>
+                            <p id="productDetail">已选：</p>
+                        </div>
+                    </div>
+                    <div class="p-box-stand" id="productFormatUl">
+
+                    </div>
+                    <div class="p-box-nums">
+                        <label>购买数量</label>
+                        <span class="p-box-nums-r clearfix">
+        <button id="min" class="btn-b-sub" data-cutnum='1'><i class="ico_bn ico_numsub"></i></button>
+        <input id="number_text_box" class="but-b-size" value="1" data-num="1" data-inputNum="1" />
+        <button id="add" class="btn-b-add" data-addnum='1'><i class="ico_bn ico_numadd"></i></button>
+        </span>
+                    </div>
+                    <button class="p-box-bott" style="background-color:#F0F0F0;color: black;" data-confirm="false" type="button" id="s_confirm">请选择规格</button>
+                </div>
+            </div>
+            <!--规格弹出 end-->
+</body>
+
+</html>

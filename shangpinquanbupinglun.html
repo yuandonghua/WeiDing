@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<script src="js/mui.min.js"></script>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link href="css/quanbupinglun.css" rel="stylesheet" />
+		<link href="css/iconfont.css" rel="stylesheet" />
+		<script src="http://apps.bdimg.com/libs/angular.js/1.4.6/angular.min.js"></script>
+		<script type="text/javascript" charset="utf-8">
+			mui.init();
+		</script>
+		<script type="text/javascript" src="js/main.js">
+		</script>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<!--<img class="arrow_left mui-action-back mui-pull-left " src="img/arrow_left.png" />-->
+			<h1 class="title mui-title">评论</h1>
+
+
+			<!--<a class=" mui-icon  mui-pull-right iconfont icon-gengduo" id="gengduo"></a>
+			<a class=" mui-icon  mui-pull-right iconfont icon-fenxiang" id="fenxiang"></a>-->
+		</header>
+		<div class="mui-content" ng-app="myApp" ng-controller="myCtl">
+
+			<ul class="mui-table-view" id="ul_shangpin">
+				<li class="mui-table-view-cell mui-media">
+					<a href="javascript:;" class="">
+						<img id="shangpin_tp" class=" mui-pull-left" ng-src="{{SERVER_IMG+wdGoods.titlePic}}">
+						<div class="mui-media-body">
+							{{wdGoods.title}}
+							<p class="mui-ellipsis">{{commentList.length}}条评论</p>
+						</div>
+					</a>
+				</li>
+
+			</ul>
+			<ul class="mui-table-view">
+				<li class="mui-table-view-cell mui-media" ng-repeat="x in commentList">
+					<a href="javascript:;" class="">
+						<img class="mui-media-object mui-pull-left" ng-src="{{x.avatar}}">
+						<div class="mui-media-body">
+							{{x.userName}}
+							<p class="mui-ellipsis">{{x.words}}</p>
+						</div>
+					</a>
+				</li>
+
+			</ul>
+		</div>
+		<script type="text/javascript">
+			var goods_id = getQueryString('goods_id');
+			var myApp = angular.module('myApp', []);
+
+			myApp.controller('myCtl', function($scope, $http) {
+				$http.jsonp('http://ifc.dressbook.cn/wdGoodsCommentListGet.jsonp?goods_id=' + goods_id + '&callback=JSON_CALLBACK')
+					.success(function(response) {
+
+						$scope.SERVER_IMG = SERVER_IMG;
+						$scope.wdGoods = response.info.wdGoods;
+						$scope.commentList = response.info.commentList;
+
+					});
+				$scope.clickShangPin = function(id) {
+
+					window.location.href = 'shangpinxiangqing.html' + "?goods_id=" + id;
+
+				};
+				$scope.clickDianPu = function(id) {
+
+					window.location.href = SERVER + 'index.html' + "?store_id=" + id;
+
+				};
+
+			});
+			//点击我要评论
+//			document.getElementById('woyaopl').addEventListener('tap', function(e) {
+//				e.detail.gesture.preventDefault(); //修复iOS 8.x平台存在的bug，使用plus.nativeUI.prompt会造成输入法闪一下又没了
+//				var btnArray = ['发布', '取消'];
+//				mui.prompt('请输入你对商品的评语：', '', '评论商品', btnArray, function(e) {
+//					console.log("e.index:" + e.index);
+//					if(e.index == 1) {
+//						//点击取消
+//
+//					} else {
+//						//点击发布
+//						$http.jsonp('http://ifc.dressbook.cn/wtWdGoodsCommentSave.jsonp?goods_id=' + goods_id + '&words=' + e.value + '&user_id=1095550' + '&callback=JSON_CALLBACK')
+//							.success(function(response) {
+//								//刷新数据
+//								$http.jsonp('http://ifc.dressbook.cn/wdGoodsCommentListGet.jsonp?goods_id=' + goods_id + '&callback=JSON_CALLBACK')
+//									.success(function(response) {
+//
+//										$scope.SERVER_IMG = SERVER_IMG;
+//										$scope.wdGoods = response.info.wdGoods;
+//										$scope.commentList = response.info.commentList;
+//
+//									});
+//
+//							});
+//					}
+//				})
+//			});
+		</script>
+	</body>
+
+</html>

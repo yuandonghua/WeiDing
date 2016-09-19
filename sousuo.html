@@ -1,0 +1,183 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link href="css/sousuo.css" rel="stylesheet" />
+		<script type="text/javascript" src="js/main.js">
+		</script>
+		<script src="http://apps.bdimg.com/libs/angular.js/1.4.6/angular.min.js"></script>
+		<script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+		<script src="js/wxutil.js"></script>
+	</head>
+
+	<body ng-app="myApp" ng-controller="myCtl">
+		<script src="js/mui.min.js"></script>
+
+		<header class="mui-bar mui-bar-nav">
+			<a class=" mui-icon mui-icon-left-nav mui-pull-left" href="index.html?store_id={{store_id}}"></a>
+			<h1 class="mui-title">搜索商品</h1>
+
+		</header>
+		<div class="mui-content">
+			<div id="div_sousuo" class="mui-input-row mui-search">
+				<input id="input_sousuo" type="search" class="mui-input-clear" placeholder="请输入商品名称" ng-model="sousuoValue">
+			</div>
+
+			<a type="button" class="mui-btn mui-btn-danger  span_sousuo" ng-click="clickSouSuo()" href="#jieguo_sousuo">
+
+				搜索
+			</a>
+			<ul id="jieguo_sousuo" class="mui-table-view" ng-hide="isShow">
+				<li class="mui-table-view-cell mui-media" ng-repeat="x in result">
+					<a href="shangpinxiangqing.html?goods_id={{x.id}}" class="">
+						<img class="mui-media-object mui-pull-left" ng-src="{{SERVER_IMG+x.titlePic}}">
+						<div class="mui-media-body">
+							{{x.title}}
+							<p id="jiage" class="mui-ellipsis">￥{{x.price}}</p>
+
+						</div>
+					</a>
+
+					<button type="button" class="mui-btn mui-btn-danger" ng-hide="{{x.isMyStoreGoods}}" ng-click="clickYinRuBenDian(x.id)">
+							引入本店
+						</button>
+				</li>
+
+			</ul>
+			<ul id="lishi_sousuo" class="mui-table-view" ng-show='isShow'>
+				<li id="li_lishi" ng-repeat="x in info" ng-click="clickLiShi(x.title)">
+
+					<div class="mui-media-body">
+						{{x.title}}
+
+					</div>
+
+				</li>
+
+			</ul>
+		</div>
+		<script type="text/javascript">
+			mui.init()
+		</script>
+		<script type="text/javascript">
+			var myApp = angular.module('myApp', []);
+			//			document.getElementById('input_sousuo').setAttribute("placeholder", "请输入商品名称");
+			myApp.controller('myCtl', function($scope, $http) {
+
+				$scope.store_id = getQueryString('store_id');
+
+				mui(".mui-search")[0].addEventListener('tap', function() {
+
+					var value = document.getElementById('input_sousuo').value;
+					//点击清除按钮
+					if(value == null || value == "") {
+
+						$scope.isShow = true;
+						$scope.sousuokey = value;
+						$http.jsonp('http://ifc.dressbook.cn/wtWdSearchLog.jsonp?callback=JSON_CALLBACK&title=' + value + '&user_id=' + $scope.user.user_id)
+							.success(function(response) {
+
+								$scope.result = response.info.result;
+
+							});
+					}
+
+				});
+				mui(".mui-input-clear")[0].addEventListener('input', function() {
+					var value = this.value;
+					//把内容删除
+					if(value == null || value == "") {
+
+						$scope.isShow = true;
+						$scope.sousuokey = value;
+						$http.jsonp('http://ifc.dressbook.cn/wtWdSearchLog.jsonp?callback=JSON_CALLBACK&title=' + value + '&user_id=' + $scope.user.user_id)
+							.success(function(response) {
+
+								$scope.result = response.info.result;
+
+							});
+					}
+				});
+
+				//由于微信认证过程需要时间，所以将用户信息获得作成一个事件，监听这个事件就能保证获取用户信息
+				document.addEventListener("userReadyEvent", function() {
+
+					$scope.user = user;
+
+					$scope.SERVER_IMG = SERVER_IMG;
+					$scope.isShow = true;
+					//点击引入本店
+					$scope.clickYinRuBenDian = function(goods_id) {
+							$http.jsonp('http://ifc.dressbook.cn/wtWdGoodsBindStore.jsonp?callback=JSON_CALLBACK&goods_id=' + goods_id + '&user_id=' + $scope.user.user_id)
+								.success(function(response) {
+									$http.jsonp('http://ifc.dressbook.cn/wtWdSearchLog.jsonp?callback=JSON_CALLBACK&title=' + $scope.sousuokey + '&user_id=' + $scope.user.user_id)
+										.success(function(response) {
+
+											$scope.result = response.info.result;
+											if($scope.result == null || $scope.result.length == 0) {
+												$scope.isShow = true;
+
+											} else {
+												$scope.isShow = false;
+											}
+
+										});
+
+								});
+						}
+						//获取历史记录
+					$http.jsonp('http://ifc.dressbook.cn/wdSearchLogListGet.jsonp?callback=JSON_CALLBACK')
+						.success(function(response) {
+
+							$scope.info = response.info;
+
+						});
+					//点击搜索
+					$scope.clickSouSuo = function() {
+						var value = document.getElementById('input_sousuo').value;
+						if(value == null || value == "") {
+							$scope.isShow = true;
+
+						} else {
+							$scope.isShow = false;
+						}
+						$scope.sousuokey = value;
+						$http.jsonp('http://ifc.dressbook.cn/wtWdSearchLog.jsonp?callback=JSON_CALLBACK&title=' + value + '&user_id=' + $scope.user.user_id)
+							.success(function(response) {
+
+								$scope.result = response.info.result;
+
+							});
+					};
+					//点击历史
+					$scope.clickLiShi = function(title) {
+						//						document.getElementById('input_sousuo').setAttribute("placeholder", title);
+						document.getElementById('input_sousuo').focus();
+						document.getElementById('input_sousuo').value = title;
+
+						$scope.sousuokey = title;
+						$http.jsonp('http://ifc.dressbook.cn/wtWdSearchLog.jsonp?callback=JSON_CALLBACK&title=' + title + '&user_id=' + $scope.user.user_id)
+							.success(function(response) {
+
+								$scope.result = response.info.result;
+								if($scope.result == null || $scope.result.length == 0) {
+									$scope.isShow = true;
+
+								} else {
+									$scope.isShow = false;
+								}
+
+							});
+
+					};
+				});
+
+			});
+		</script>
+	</body>
+
+</html>

@@ -1,0 +1,334 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+
+<html>
+
+ <style>
+
+    </style>
+
+<head>
+
+    <title>卖易99</title>
+    <!--<title></title>-->
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
+    <meta content="telephone=no" name="format-detection" />
+    <meta content="yes" name="apple-mobile-web-app-capable" />
+    <meta content="black" name="apple-mobile-web-app-status-bar-style" />
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="cache-control" content="no-cache">
+    <meta http-equiv="expires" content="0">
+    <link rel="stylesheet" type="text/css" href="assets/css/buyConfirm.css" />
+
+    <script src="http://apps.bdimg.com/libs/angular.js/1.4.6/angular.min.js"></script>
+    <script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="../../js/wxutil.js"></script>
+    <script src="jquery.md5.js"></script>
+    <script src="payment.js"></script>
+</head>
+
+<body >
+   
+
+    <form type="post" action="mall/trade.action" id="dataForm">
+        <input type="hidden" id="t_payType" name="orders.payType" value="" />
+        <input type="hidden" id="t_id" name="orders.id" value="8d918e866ece45f68b9250e8559ca6db" />
+        <input type="hidden" id="t_msg" name="orders.msg" />
+        <input type="hidden" name="u" value="11248" />
+        <input type="hidden" name="c" value="11248" />
+        <input type="hidden" id="t_useV" name="useV" value="1" />
+        <input type="hidden" name="receiptAddress.id" value="1438" />
+        <input type="hidden" name="receiptAddress.name" value="xx" id="d_receiptAddressName" />
+        <input type="hidden" name="receiptAddress.phone" value="18610116933" id="d_receiptAddressPhone" />
+        <input type="hidden" name="receiptAddress.address" value="xx" id="d_receiptAddressAddress" />
+        <input type="hidden" name="receiptAddress.areaIds" value="110000,110100,110102" id="d_receiptAddressAreaIds" />
+        <input type="hidden" name="receiptAddress.code" value="100013" id="d_receiptAddressCode" />
+        <input type="hidden" name="receiptAddress.area" value="110000,110100,110102" id="d_receiptAddressArea" />
+        <input type="hidden" name="receiptAddress.province" value="北京" id="d_receiptAddressProvince" />
+        <input type="hidden" name="receiptAddress.city" value="北京市" id="d_receiptAddressCity" />
+        <input type="hidden" name="receiptAddress.district" value="西城区" id="d_receiptAddressDistrict" />
+        <input type="hidden" name="orders.purchasName" id="d_purchasName" value="" />
+        <input type="hidden" name="orders.purchasIdentify" id="d_purchasIdentify" value="" />
+        <input type="hidden" id="p_isPurchasing" name="isPurchasing" value="0" />
+        <input type="hidden" id="t_virtualFla" name="virtualFla" value="0" />
+        <input type="hidden" id="activity_type" name="orders.activityType" value="0" />
+        <input type="hidden" id="activity_id" name="orders.activityId" value="0" />
+        <input type="hidden" id="group_number" name="orders.groupNumber" value="" />
+        <input type="hidden" id="t_contactPhone" name="orders.contactPhone" value="18610116933" />
+    </form>
+
+    <input type="hidden" id="s_messages" value="" />
+
+    <div class="app-pay" ng-app="orderApp" ng-controller="orderController" style="padding-bottom: 80px;">
+        <div class="app-header">
+            <i class="ico_bn ico_back" onClick="window.history.go(-1);"></i>
+            <h2>
+                待支付订单
+            </h2>
+        </div>
+
+        <div class="pay-address">
+
+            <p class="address-top" data-role="editAddress">
+                收货人：xx
+                <span>18610116933</span>
+                <input type="hidden" id="contact_name" value="xx" />
+                <input type="hidden" id="contact_phone" value="18610116933" />
+            </p>
+            <div class="address-info" data-role="editAddress">
+                <i class="ico_bn ico_address"></i>
+                <span><label>
+						收货地址：
+					</label>北京北京市西城区xx</span>
+                <input type="hidden" id="contact_address" value="xx" />
+            </div>
+
+        </div>
+        <div class="ui_mt10 lay-mian bor-top">
+            <div class="lay-top clearfix">
+                <span class="l-t-name"> <i class="ico_bn ico_store"></i> 宝妈学堂 </span>
+            </div>
+
+            <div class="lay-conent">
+                <span class="lay-c-img"> <img src="http://www.mie99.cn/resource/vsystem/resource/201608/11248/systemPic/0/20160819/1471596217612_96893.jpg" />
+					</span>
+                <div class="lay-c-txt">
+                    <h3>
+                        8月26日亲子行业资源对接会暨“童萌汇”第二届交流会
+                    </h3>
+                    <p class="lay-stand" data-standtext='1'>
+                        月底大聚会
+                    </p>
+                    <p class="lay-pr">
+                        <b class="ui_left">￥
+							1.0
+							
+							</b>
+                        <span class="prod-v-profit ui_left" style="color:#FFF">消费积分：0.1V</span>
+                        <span class="ui_right"><small>×</small><span
+								data-nowNum='1'>
+								1</span>
+                        </span>
+                    </p>
+                </div>
+            </div>
+
+        </div>
+        <div class="pay-prices">
+
+            <p class="pay-yf">
+                <label>
+					运费
+				</label>
+                <span class="pay-yf-my">￥0.0</span>
+            </p>
+            <p class="pay-yf">
+                <textarea placeholder="买家留言" style="background: #EEEEEE;" value="" id="s_msg" placeholder="最多140字" maxlength="140"></textarea>
+            </p>
+
+            <p class="pay-all-price clearfix">
+
+                <span class="ui_right">共1件商品<font>合计：
+				
+				<b class="c-red">￥1.0</b>
+				</font>
+				</span>
+            </p>
+        </div>
+        <!--V值 start-->
+        <div class="v-repice">
+            <span class="v-r-left">
+				
+					可用<em data-double="0.00" data-h="V">0.00V</em>值抵用<span data-double="0.00">0.00</span>元
+
+            </span>
+
+            <span class="v-r-open v_close" data-opse='1' data-useVDeductible="0.00">
+					<i class='op'></i>
+				</span>
+
+        </div>
+        <!--V值 end-->
+        <div class="ui_mt10 pay_way">
+            <h3>
+                付款方式
+            </h3>
+            <ul class="pay_list">
+
+
+                <li class="clearfix pay_active" data-type="2">
+
+                    <label class="pay_list_label">
+						<span class="pay_ico"> <img src="/assets/images/wechat.png">
+						</span>
+						<span>微信支付</span>
+					</label>
+                </li>
+
+
+            </ul>
+        </div>
+        <div class="order_foot clearfix">
+            <!--  
+			<p class="ui_left ui_ml10">
+				共计：
+				<b class="c-red">1</b>件
+			</p>
+			-->
+            <div class="order_price ui_right">
+                <span class="">合计：<b class="c-red" data-totalOrderPrice="1" data-totalPrice="1.0">￥1.0</b>
+				</span>
+                <button type="button" class="btn_gobuy" id="s_submit" data-pay="1">
+					确定
+				</button>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+
+<script type="text/javascript">
+	angular.module('orderApp', ['ngMessages'])
+			.controller('orderController', function ($scope, $http) {
+
+				document.addEventListener("userReadyEvent", function() {
+
+				//检查session中是否有地址
+				var addressJson = sessionStorage.getItem('_address_');
+				//==> 如果没有, ajax请求获取对应的地址
+				if (addressJson == null){
+					$http.jsonp('http://ifc.dressbook.cn/addressListForUser.jsonp?user_id='+user.user_id +'&callback=JSON_CALLBACK')
+							.success(function (result) {
+								
+								var add = result.info[0];
+								//如果没有地址
+								if (!add){ //获取不到 --> to addNewAddr
+									alert('当前还没有收货地址,请先添加!');
+									window.location = 'addNewAddr.html';
+									return;
+								}
+
+								//有地址  保存到session
+								sessionStorage.setItem('_address_', JSON.stringify(add));
+
+								$scope.address = add;
+							})
+							.error(function (result) {
+								alert(result);
+							});
+				}else {
+					$scope.address = JSON.parse(addressJson);
+				}
+
+
+					// $http.jsonp('http://ifc.dressbook.cn/wdOrdersGet.jsonp?user_id='+user.user_id +'&callback=JSON_CALLBACK')
+					// 		.success(function (result) {
+					// 			$scope.order = result.info.buyOrders.pop();
+					// 			alert(JSON.stringify($scope.order));
+					// 		})
+					// 		.error(function (result) {
+					// 			alert(result);
+					// 		});
+
+				// 检查session中是否有购物车
+				var cartJson = sessionStorage.getItem('_cart_');
+
+				//hack for test
+				if(cartJson == null)
+				{
+					var goods_id = 14;
+					//获取购买详情
+					$http.jsonp('http://ifc.dressbook.cn/wdGoodsSetListGet.jsonp?goods_id=' + goods_id + '&callback=JSON_CALLBACK')
+						.success(function(response) {
+							$scope.cart = {
+								goodsSet:response.info.goodsSets[0],
+								count:2,
+								freight:10
+							}
+
+						});
+				}
+
+				if (cartJson == null){
+					alert('当前购物车中没有商品');
+					// window.location = 'index.html';
+				}else{
+					$scope.cart = JSON.parse(cartJson);
+				}
+				
+				//确认支付
+				$scope.submit = function () {
+					payment().applyBinding(user.user_id, $scope.address.id, $scope.cart.goodsSet.wdGoods.storeId,$scope.cart.goodsSet.id);
+				};
+
+				$scope.toaddrManage = function () {
+					window.location = 'addrManage.html';
+				}
+				
+				});
+
+			});
+
+            
+            function setUserPhone(){
+                var userPhone = $("#p_userPhone").val();
+                if(!(/^((1\d{10})|(\d{2,4}-\d{7,8})){1}$/g.test(userPhone))){
+                    $("#userPhone_em").text("请输入正确的电话号码！");
+                    return;
+                }
+                $.post("mall/updateUserPhone.action",{"userPhone":userPhone,"orderId":$("#t_id").val()},function(data){
+                    if(data=="SUCCESS"){
+                        $("#dataForm").submit();
+                    }else{
+                        $("#userPhone_em").text(data);
+                    }
+                });
+            }
+
+            function clearPhoneEm(){
+                $("#userPhone_em").text("");
+            }
+
+            function pay(){	
+            }
+
+
+            function isPurchasing(){
+                $("#p_name").focus();
+                $(".setUp_tipBox").show();
+            }
+
+            var addressJson = '';
+            $("*[data-role='editAddress']").bind("click",function(){
+                $('#changeAddressForm').submit();
+                    // if(/MicroMessenger/i.test(navigator.userAgent) && addressJson != null && addressJson.length > 0){
+                    // 		var jsonAddr = eval("(" + addressJson + ")");
+                    // 		//alert(addressJson.appid + " " + addressJson.addrSign + " " + addressJson.timestamp + " " + addressJson.noncestr);
+                    // 		WeixinJSBridge.invoke('editAddress',{
+                    // 				"appId" : jsonAddr.appid,
+                    // 				"scope" : "jsapi_address",
+                    // 				"signType" : "sha1",
+                    // 				"addrSign" : jsonAddr.addrSign,
+                    // 				"timeStamp" : jsonAddr.timestamp,
+                    // 				"nonceStr" : jsonAddr.noncestr,
+                    // 			},function(res){
+                    // 				$("#dataForm").attr("action", "mall/payOrder.action");
+                    // 				$("#d_receiptAddressName").val(res.userName);
+                    // 				$("#d_receiptAddressCode").val(res.addressPostalCode);
+                    // 				$("#d_receiptAddressPhone").val(res.telNumber);
+                    // 				$("#d_receiptAddressProvince").val(res.proviceFirstStageName);
+                    // 				$("#d_receiptAddressCity").val( res.addressCitySecondStageName );
+                    // 				$("#d_receiptAddressDistrict").val(res.addressCountiesThirdStageName);
+                    // 				$("#d_receiptAddressAddress").val(res.addressDetailInfo.replace(/[\r\n]/g, ""));
+                    // 				$("#d_receiptAddressAreaIds").val(res.nationalCode.substring(0,2)+ "0000," + res.nationalCode.substring(0,4) + "00," + res.nationalCode);
+                    // 				$("#dataForm").submit();
+                    // 	 	}, false);
+                    // } else {
+                    // 	$('#changeAddressForm').submit();
+                    // }
+            });
+</script>
+
+</html>

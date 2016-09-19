@@ -1,0 +1,336 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+
+<head>
+
+    <title>我的订单</title>
+    <!--<title>快讯移动商城</title>-->
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
+    <meta content="telephone=no" name="format-detection" />
+    <meta content="yes" name="apple-mobile-web-app-capable" />
+    <meta content="black" name="apple-mobile-web-app-status-bar-style" />
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="cache-control" content="no-cache">
+    <meta http-equiv="expires" content="0">
+
+    <script type="text/javascript" src="assets/js/angular/angular-1.5.5.js"></script>
+    <script type="text/javascript" src="assets/js/angular/angular-messages.js"></script>
+    <script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="../../js/wxutil.js"></script>
+    <script src="jquery.md5.js"></script>
+    <script src="payment.js"></script>
+    <script src="tabs.js"></script>
+    <!--<script src="ajaxLoad.js"></script>-->
+
+    <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+    <link rel="stylesheet" type="text/css" href="assets/css/buyConfirm.css" />
+
+</head>
+
+<body ng-app="orderApp" ng-controller="orderController" n>
+    <input type="hidden" id="param_c" value="62" />
+    <input type="hidden" id="param_u" value="11248" />
+    <input type="hidden" id="param_currentUserId" value="" />
+    <input type="hidden" id="param_currentUserImg" value="" />
+    <input type="hidden" id="param_currentUserName" value="" />
+    <input type="hidden" id="param_currentrealName" value="" />
+    <div class="loading" style="display: none;"></div>
+    <div class="pb80" id="pages">
+        <style>
+            <!-- .set-i {
+                background: url("/vresource/vstore/images/confirmOrder1.png") no-repeat center;
+                background-size: 22px;
+            }
+            
+            .set-i.set-checked {
+                background: url("/vresource/vstore/images/confirmOrder2.png") no-repeat center;
+                background-size: 22px;
+            }
+            
+            .mie_alert .alert_pop_up {
+                margin: -120px 20px;
+            }
+            
+            -->
+        </style>
+
+        <body>
+            <div class="store_app store_pa">
+                <!--我的订单 start-->
+                <div class="app-header">
+                    <i class="ico_bn ico_back" onclick="window.location.href='../../me.html'"></i>
+                    <h2>我的订单</h2>
+                </div>
+                <ul class="order_nav" id="order_nav">
+                    <li class="active">
+                        <a ng-click="showOrder('全部')">全部</a>
+                    </li>
+                    <li>
+                        <a ng-click="showOrder('待付款')">待付款</a>
+                    </li>
+                    <li>
+                        <a ng-click="showOrder('待发货')">待发货</a>
+                    </li>
+                    <li>
+                        <a ng-click="showOrder('待收货')">待收货</a>
+                    </li>
+                    <li>
+                        <a ng-click="showOrder('未定义状态')">未定义状态</a>
+                    </li>
+                </ul>
+                <form action="mall/myOrders.action?u=11248&c=62" method="post" id="orderForm" style="font-size: 0px;">
+                    <input type="hidden" name="orders.statusId" value="0" id="orderStatus" />
+                </form>
+                <form action="mall/orderDetail.action?u=11248&c=62" method="post" id="orderDetailForm" style="font-size: 0px;">
+                    <input type="hidden" name="orders.id" id="orderId" />
+                </form>
+                <ul class="commdoity_list mt10" data-prodList="1" id="order_list">
+
+                    <li>
+
+                        <li ng-repeat="data in orders">
+                            <div>
+                                <div class="commdoity_text" data-commdoity="1">
+                                    <div class="comm_img order_img">
+                                        <img src="http://st.dressbook.cn/{{data.wdGoodsSet.pic}}">
+                                    </div>
+                                    <div class="com_txt order_txt">
+                                        <h3>{{data.wdGoodsSet.title}}</h3>
+                                        <p>{{data.wdGoodsSet.descr}}</p>
+                                    </div>
+                                    <div class="comm_num">
+                                        <p>{{data.wdGoodsSet.price}}<br/><span class="prices_num">×<font>1</font></span></p>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="comm_bottom orderl_bottom">
+                                <!--<span class="fl textR">{{共 + data.wdBuyNum+ 件商品, + (data.order.stateShow == 3?"需付":"实付") + ":" + ((Number)(parseFloat(data.order.freight)+parseFloat(data.order.priceTotal))).toFixed(2)}}</span>-->
+                                <span class="fl textR">共 {{data.order.wdBuyNum}} 件商品, {{(data.order.stateShow == "已付款"? "实付":"需付")}} : {{data.order.priceTotal}} </span>
+                            </div>
+
+                            <div class="ored_qLink">
+                                <div ng-switch="data.order.stateShow">
+                                    <div ng-switch-when="未定义状态">
+                                        <a ng-click="deleteOrder(data.order.id)">删除订单</a>
+                                        <a href="" id="pay_btn" data-refresh="1">付款</a>
+                                    </div>
+
+                                    <div ng-switch-when="待付款">
+                                        <a ng-click="deleteOrder(data.order.id)">删除订单</a>
+                                        <a href="" id="pay_btn" data-refresh="1">付款</a>
+                                    </div>
+                                    <!--<div ng-switch-when="已付款">
+                                        <a href="javascript:;" ng-click ="reminderDelivery(\''+order.id+'\',\''+order.reminderDelivery+'\')" data-refresh="1">提醒卖家发货</a>
+                                 </div>-->
+                                    <div ng-switch-when="已发货">
+                                        <a href="javascript:;" ng-click="updateOrder(data.order.id,6)">确认收货</a>
+                                    </div>
+                                </div>
+                        </li>
+                    </li>
+                </ul>
+
+                <input type="hidden" id="currentPage_order" name="currentPage_order" value="1" />
+                <div data-ajaxLoad="getanotherOrder" style="display:none;text-align: center;" data-page="currentPage" data-complete="0">
+                    暂无更多订单
+                </div>
+
+                <div data-loadlist="myorder" class="loadlist"><label style="margin-left: 25px;">正在加载....</label></div>
+                </div>
+
+                <div class="mie_alert virtual_logOut hide" id="setorderConfirmBox" style="">
+                    <input type="hidden" id="temp_order_id" name="orderId" />
+                    <input type="hidden" id="temp_status_id" name="statusId" />
+                    <div class="alert_pop_up">
+                        <div class="pop_up_text">
+                            <p class="pop_up_text_import" style="border-bottom: 1px solid #c9c9c9;">
+                                提示
+                            </p>
+                            <p class="pop_up_text_code">
+                                <span style="font-size: 18;">确认已收到货？</span>
+                                <span class="set-ck" style="float: none;">
+                 		<i class="set-i"></i>
+                 		<span>无需退货(勾选后,将不能再申请退款)</span>
+                                </span>
+                            </p>
+                        </div>
+                        <div class="pop_up_btn">
+                            <span class="pop_up_cancle" onClick="$('#setorderConfirmBox').hide();">取消</span><span class="pop_up_confirm"
+                                onclick="updateOrderConfirm();">确定</span>
+                        </div>
+                    </div>
+                </div>
+        </body>
+
+</html>
+<script type="text/javascript">
+
+	angular.module('orderApp', ['ngMessages'])
+			.controller('orderController', function ($scope, $http) {
+
+                tabs.set("order_nav");
+                $scope.ordertype = "全部";
+
+                $scope.showOrder = function(ordertype){
+                    $scope.ordertype = ordertype; //记录当前类型
+                    if(ordertype == "全部"){
+                        $scope.orders = $scope.allOrders;
+                        return;
+                    }
+
+                    var tmp = [];
+                    var len = $scope.allOrders==null ? 0:$scope.allOrders.length;
+                    for(var i = 0; i < len; i++){
+                        if($scope.allOrders[i].order.stateShow == ordertype){
+                            tmp.push($scope.allOrders[i]);
+                        }
+                    }
+                    $scope.orders = tmp;
+                };
+
+                $scope.refresh = function(){
+                    var dbkUrl = "http://ifc.dressbook.cn";
+                    $.ajax({
+                        url: dbkUrl + "/wdOrdersGet.jsonp",
+                        data: "user_id="+user.user_id,
+                        type: "GET",
+                        async: true,
+                        dataType: 'JSONP',
+                        success: function (data) {
+                            console.log(JSON.stringify(data));
+                            if (data.code == 1) {
+                                $scope.allOrders = data.info.buyOrders;
+                                //$scope.orders = data.info.buyOrders;
+                                $scope.showOrder($scope.ordertype);
+                                $scope.$apply();
+                            }     
+                        }
+                    });	
+                };
+
+                $scope.deleteOrder = function(orderId){
+
+                    if(confirm("确定要删除订单吗?")){
+                        var dbkUrl = "http://ifc.dressbook.cn";
+                        $.ajax({
+                            url: dbkUrl + "/wtWdGoodsDel.jsonp",
+                            data: "order_id="+orderId,
+                            type: "GET",
+                            async: true,
+                            dataType: 'JSONP',
+                            success: function (data) {
+                                console.log(JSON.stringify(data));
+                                if (data.code == 1) {
+                                    $scope.refresh();
+                                    // $.tipBox({title:"订单删除成功！"});
+                                }     
+                            }
+                        });	
+                    };
+                }
+
+				document.addEventListener("userReadyEvent", function() {
+                    $scope.refresh()			
+				});
+
+			});
+
+
+	$(function(){
+		$(".set-i").click(function(){
+			$(this).toggleClass('set-checked');
+		});
+	});
+	function getOrderStatus(statusId){
+		return (statusId == 1?"待支付" : (statusId == 2?"待确认":(statusId == 3? "待发货" : (statusId == 4?"卖家已发货":(statusId == 5?"已收货":(statusId ==6?"交易完成":(statusId == 7||statusId == 8?"交易关闭":"")))))));
+	}
+	//商品评价
+	function commmentOrder(orderId){
+		if(orderId&&orderId!="0"){
+			window.location.href="comment/comment.action?order.id="+orderId+"&u=11248&c=62";
+		}
+	}
+	function commmentOrderAppend(orderId){
+		if(orderId&&orderId!="0"){
+			window.location.href="comment/appendComment.action?order.id="+orderId+"&u=11248&c=62";
+		}
+	}
+
+	//延长收货
+	function updateOrderDelayRecivery(orderId,isDelayDelivery){
+		if(isDelayDelivery==1){
+			$.tipBox({title:"每笔订单只能延长收货一次,您已操作！"});
+		}else{
+			if(confirm("确认延长收货时间？每笔订单只能延长收货一次，延长时间为3天")){
+				$.post("mall/updateOrderDelayRecivery.action",{"orderId":orderId},function(data){
+					if(data=="SUCCESS"){
+						$.tipBox({title:"操作成功！"});
+						setTimeout(function(){
+							window.location.href = "mall/myOrders.action?u=11248&c=62";
+						},1000);
+						
+					}
+				});
+			}
+		}
+		return false;
+	}
+	
+	function updateOrder(orderId, statusId){
+		$("#temp_order_id").val(orderId);
+		$("#temp_status_id").val(statusId);
+		$(".set-i").removeClass("set-checked");
+		$("#setorderConfirmBox").show();
+	}
+	
+	function updateOrderConfirm(){
+		var objs = $(".set-i");
+		var autoSettlement = 0;
+		if(objs.hasClass("set-checked")){
+			autoSettlement=1;
+		}
+		var orderId = $("#temp_order_id").val();
+		var statusId = $("#temp_status_id").val();
+		var text = autoSettlement==0?"确认收货？":"确认收货，无需退货？";
+		if(confirm(text)){
+			$.post("json/mall/updateOrderStatus.action",{
+				"orders.id" : orderId,
+				"orders.statusId" : statusId,
+				"autoSettlement":autoSettlement
+			},function(data){
+				var messages = data.messages;
+				if(messages == 'ok'){
+					if(statusId == 0){
+						window.location.href = "mall/myOrders.action?u=11248&c=62";
+					} else if(statusId == 6){
+						window.location.href="comment/comment.action?order.id="+orderId+"&u=11248&c=62";
+					}else {
+						window.location.href = "mall/orderDetail.action?order.id="+orderId+"&u=11248&c=62";
+					}
+				} else {
+					$.tipBox({title:messages});
+				}
+			});
+		}
+		return false;
+	}
+	
+	//提醒发货
+	function reminderDelivery(orderId,reminderDelivery,event){
+		
+			$.post("mall/updateOrderDeliveryTime.action",{"orderId":orderId},function(data){
+				if(data=="SUCCESS"){
+					$.tipBox({title:"已提醒卖家，12小时后可再次提醒。"});
+					setTimeout(function(){
+						window.location.href = "mall/myOrders.action?u=11248&c=62&orders.statusId=0";
+					},1000);
+				}else{
+					$.tipBox({title:data});
+				}
+			})
+		
+	}
+</script>

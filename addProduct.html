@@ -1,0 +1,369 @@
+<!doctype html>
+<html lang="en" class="feedback">
+
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+
+		<link rel="stylesheet" type="text/css" href="css/mui.min.css" />
+		<link rel="stylesheet" type="text/css" href="css/addProduct.css" />
+		<script src="js/main.js"></script>
+		<script src="http://apps.bdimg.com/libs/angular.js/1.4.6/angular.min.js"></script>
+		<script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+		<script src="js/wxutil.js"></script>
+		<script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js">
+		</script>
+	</head>
+
+	<body ng-app="app" ng-controller="controller">
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-icon mui-icon-left-nav mui-pull-left" href="manageProducts.html"></a>
+			<h1 class="mui-title">添加商品</h1>
+			<a id="a_save" class="mui-icon mui-pull-right" ng-click="next()">下一步</a>
+		</header>
+		<div class="mui-content">
+
+			<div id="div_goods_title" class="title">
+				商品标题
+			</div>
+
+			<div class="mui-input-row">
+				<input id="inp_title" ng-model="goodsTitle" type="text" placeholder="请填写商品标题"></input>
+			</div>
+			<div id="div_goods_descr" class="title">
+				商品描述
+			</div>
+
+			<div class="mui-input-row">
+				<input id="inp_descr" ng-model="goodsDescr" type="text" placeholder="请填写商品描述"></input>
+			</div>
+			<div id="div_goods_price" class="title">
+				商品价格
+			</div>
+			<div class="mui-input-row">
+
+				￥<input id="inp_price" ng-model="goodsPrice" type="number" placeholder="请填写商品价格"></input>
+
+			</div>
+			<div id="div_goods_title_pic" class="title">
+				商品图片
+				<button id="btn_add_pic" type="button" class="mui-btn mui-btn-danger" ng-click="openAlbum()">
+					添加图片
+					</button>
+			</div>
+
+			<ul id="ul_pic" class="mui-table-view mui-grid-view">
+				<li id="li_pic_item" class="mui-table-view-cell mui-media mui-col-xs-4">
+
+					<img id="img_pic_1" class="mui-media-object" />
+					<img id="img_delete_1" hidden class="image-close" src="img/ic_delete_pic.png" ng-click="deletePic(0)" />
+
+					<div id="div_check_1" hidden class=" mui-checkbox mui-left ">
+						<label class="la_title_pic">题图</label>
+						<input id="inp_title_pic_1" class="inp_title_pic" name="checkbox" type="checkbox" checked ng-click="checkPic(0)">
+					</div>
+
+				</li>
+				<li id="li_pic_item" class="mui-table-view-cell mui-media mui-col-xs-4">
+
+					<img id="img_pic_2" class="mui-media-object" />
+					<img id="img_delete_2" hidden class="image-close" src="img/ic_delete_pic.png" ng-click="deletePic(1)" />
+					<div id="div_check_2" class="mui-input-row mui-checkbox mui-left " hidden>
+						<label class="la_title_pic">题图</label>
+						<input id="inp_title_pic_2" class="inp_title_pic" name="checkbox" type="checkbox" ng-click="checkPic(1)">
+					</div>
+
+				</li>
+				<li id="li_pic_item" class="mui-table-view-cell mui-media mui-col-xs-4">
+
+					<img id="img_pic_3" class="mui-media-object" />
+					<img id="img_delete_3" hidden class="image-close" src="img/ic_delete_pic.png" ng-click="deletePic(2)" />
+					<div id="div_check_3" class="mui-input-row mui-checkbox mui-left " hidden>
+						<label class="la_title_pic">题图</label>
+						<input id="inp_title_pic_3" class="inp_title_pic" name="checkbox" type="checkbox" ng-click="checkPic(2)">
+					</div>
+
+				</li>
+				<li id="li_pic_item" class="mui-table-view-cell mui-media mui-col-xs-4">
+
+					<img id="img_pic_4" class="mui-media-object" />
+					<img id="img_delete_4" hidden class="image-close" src="img/ic_delete_pic.png" ng-click="deletePic(3)" />
+					<div id="div_check_4" class="mui-input-row mui-checkbox mui-left " hidden>
+						<label class="la_title_pic">题图</label>
+						<input id="inp_title_pic_4" class="inp_title_pic" name="checkbox" type="checkbox" ng-click="checkPic(3)">
+					</div>
+
+				</li>
+				<li id="li_pic_item" class="mui-table-view-cell mui-media mui-col-xs-4">
+
+					<img id="img_pic_5" class="mui-media-object" />
+					<img id="img_delete_5" hidden class="image-close" src="img/ic_delete_pic.png" ng-click="deletePic(4)" />
+					<div id="div_check_5" class="mui-input-row mui-checkbox mui-left " hidden>
+						<label class="la_title_pic">题图</label>
+						<input id="inp_title_pic_5" class="inp_title_pic" name="checkbox" type="checkbox" ng-click="checkPic(4)">
+					</div>
+
+				</li>
+				<li id="li_pic_item" class="mui-table-view-cell mui-media mui-col-xs-4">
+
+					<img id="img_pic_6" class="mui-media-object" />
+					<img id="img_delete_6" hidden class="image-close" src="img/ic_delete_pic.png" ng-click="deletePic(5)" />
+					<div id="div_check_6" class="mui-input-row mui-checkbox mui-left " hidden>
+						<label class="la_title_pic">题图</label>
+						<input id="inp_title_pic_6" class="inp_title_pic" name="checkbox" type="checkbox" ng-click="checkPic(5)">
+					</div>
+
+				</li>
+				<li id="li_pic_item" class="mui-table-view-cell mui-media mui-col-xs-4">
+
+					<img id="img_pic_7" class="mui-media-object" />
+					<img id="img_delete_7" hidden class="image-close" src="img/ic_delete_pic.png" ng-click="deletePic(6)" />
+					<div id="div_check_7" class="mui-input-row mui-checkbox mui-left " hidden>
+						<label class="la_title_pic">题图</label>
+						<input id="inp_title_pic_7" class="inp_title_pic" name="checkbox" type="checkbox" ng-click="checkPic(6)">
+					</div>
+
+				</li>
+				<li id="li_pic_item" class="mui-table-view-cell mui-media mui-col-xs-4">
+
+					<img id="img_pic_8" class="mui-media-object" />
+					<img id="img_delete_8" hidden class="image-close" src="img/ic_delete_pic.png" ng-click="deletePic(7)" />
+					<div id="div_check_8" class="mui-input-row mui-checkbox mui-left " hidden>
+						<label class="la_title_pic">题图</label>
+						<input id="inp_title_pic_8" class="inp_title_pic" name="checkbox" type="checkbox" ng-click="checkPic(7)">
+					</div>
+
+				</li>
+				<li id="li_pic_item" class="mui-table-view-cell mui-media mui-col-xs-4">
+
+					<img id="img_pic_9" class="mui-media-object" />
+					<img id="img_delete_9" hidden class="image-close" src="img/ic_delete_pic.png" ng-click="deletePic(8)" />
+					<div id="div_check_9" class="mui-input-row mui-checkbox mui-left " hidden>
+						<label class="la_title_pic">题图</label>
+						<input id="inp_title_pic_9" class="inp_title_pic" name="checkbox" type="checkbox" ng-click="checkPic(8)">
+					</div>
+
+				</li>
+			</ul>
+
+		</div>
+		<script src="js/mui.min.js"></script>
+		<!--<script src="js/fadongtai.js" type="text/javascript" charset="utf-8"></script>-->
+		<script type="text/javascript">
+			mui.init();
+			mui('.mui-scroll-wrapper').scroll();
+		</script>
+		<script type="text/javascript" src="js/fadongtai.js">
+		</script>
+		<script type="text/javascript">
+			var goods_id = getQueryString('goods_id');
+
+			var myApp = angular.module('app', []);
+
+			myApp.controller('controller', function($scope, $http) {
+
+				//由于微信认证过程需要时间，所以将用户信息获得作成一个事件，监听这个事件就能保证获取用户信息
+				document.addEventListener("userReadyEvent", function() {
+					$scope.SERVER_IMG = SERVER_IMG;
+					$scope.goods_id = getQueryString("goods_id")
+
+					$scope.user = user;
+
+					$scope.SERVER_IMG = SERVER_IMG;
+					$scope.goodsTitle = "";
+					$scope.goodsPrice = "";
+					$scope.goodsDescr = "";
+					$scope.selectedIndex = 0;
+
+					//获取微信分享配置信息
+					$http.jsonp('http://ifc.dressbook.cn/weXConfigSignGet.jsonp?callback=JSON_CALLBACK&url=' + encodeURIComponent(location.href))
+						.success(function(response) {
+							$scope.wxinfo = response.info;
+
+							wx.config({
+								debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+								appId: 'wxcded79a899c9ef25', // 必填，公众号的唯一标识
+								timestamp: $scope.wxinfo.timestamp, // 必填，生成签名的时间戳
+								nonceStr: $scope.wxinfo.nonceStr, // 必填，生成签名的随机串
+								signature: $scope.wxinfo.signature, // 必填，签名，见附录1
+								jsApiList: ['chooseImage', 'uploadImage'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+
+							});
+							wx.ready(function() {
+								// config信息验证后会执行ready方法，所有接口调用都必须在config接口获得结果之后，
+								//config是一个客户端的异步操作，所以如果需要在页面加载时就调用相关接口，
+								//则须把相关接口放在ready函数中调用来确保正确执行。对于用户触发时才调用的接口，
+								//则可以直接调用，不需要放在ready函数中。
+								mui.toast('可以开始上传图片了');
+								$scope.imgs = new Array();
+
+								//打开相册
+								$scope.openAlbum = function() {
+									if($scope.imgs.length >= 9) {
+										mui.toast('最多选择9张图片');
+									} else {
+										var size = $scope.imgs.length;
+
+										var count = 9 - size;
+										wx.chooseImage({
+											count: count, // 默认9
+											sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
+											sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
+											success: function(res) {
+												var ids = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
+
+												if(ids.length > 1) {
+
+													var m = 0;
+
+													for(var i = size; i < 9; i++) {
+														if(ids.length > m) {
+
+															$scope.imgs.push(ids[m]);
+
+															m++;
+
+														}
+
+													}
+												} else if(ids.length == 1) {
+
+													$scope.imgs.push(ids[0]);
+												}
+												if($scope.imgs.length > 0) {
+
+													for(var i = 0; i < 9; i++) {
+														if($scope.imgs.length > i && $scope.imgs[i] != "") {
+															$('#img_delete_' + (i + 1)).show();
+															$('#img_pic_' + (i + 1)).show();
+															$('#div_check_' + (i + 1)).show();
+															document.getElementById('img_pic_' + (i + 1)).src = $scope.imgs[i];
+														} else {
+															$('#img_delete_' + (i + 1)).hide();
+															$('#img_pic_' + (i + 1)).hide();
+															$('#div_check_' + (i + 1)).hide();
+
+														}
+
+													}
+												} else {
+													for(var i = 0; i < 9; i++) {
+
+														$('#img_delete_' + (i + 1)).hide();
+														$('#img_pic_' + (i + 1)).hide();
+														$('#div_check_' + (i + 1)).hide();
+													}
+												}
+
+											}
+										});
+									}
+								}; //下一步
+								$scope.next = function() {
+
+									if($scope.goodsTitle == "") {
+										mui.toast("商品标题不能为空");
+
+									} else if($scope.goodsDescr == "") {
+										mui.toast("商品描述不能为空");
+
+									} else if($scope.goodsPrice == "") {
+										mui.toast("商品价格不能为空");
+
+									} else if($scope.imgs.length == 0) {
+										mui.toast("商品图片不能为空");
+									} else {
+										uploadImages();
+
+									}
+
+								}
+
+								function uploadImages() {
+									$scope.mediaIds = new Array();
+									for(var i = 0; i < $scope.imgs.length; i++) {
+
+										//上传图片到微信服务器
+										wx.uploadImage({
+											localId: $scope.imgs[i], // 需要上传的图片的本地ID，由chooseImage接口获得
+											isShowProgressTips: 1, // 默认为1，显示进度提示
+											success: function(res) {
+												var mediaId = res.serverId; // 返回图片的服务器端ID
+
+												$scope.mediaIds.push(mediaId);
+
+												if($scope.mediaIds.length == $scope.imgs.length) {
+													mui.toast("正在提交...");
+													$http.jsonp('http://ifc.dressbook.cn/wtWdGoodsUpload.jsonp?callback=JSON_CALLBACK&user_id=' +
+															$scope.user.user_id + "&title=" + $scope.goodsTitle + "&descr=" + $scope.goodsDescr + "&price=" + $scope.goodsPrice +
+															"&title_media_id=" + $scope.mediaIds[$scope.selectedIndex] + "&media_ids=" + $scope.mediaIds)
+														.success(function(response) {
+															mui.toast("商品发布成功");
+															window.location.href = SERVER + "manageProducts.html";
+
+														});
+												}
+											}
+										});
+									}
+								};
+							});
+							//点击删除
+							$scope.deletePic = function(index) {
+
+								if($scope.imgs.length > index) {
+
+									$scope.imgs.splice(index, 1);
+									if(index==$scope.selectedIndex){
+										$scope.selectedIndex = 0;
+									}
+
+								}
+								if($scope.imgs.length > 0) {
+
+									for(var i = 0; i < 9; i++) {
+										if($scope.imgs.length > i && $scope.imgs[i] != "") {
+											$('#img_delete_' + (i + 1)).show();
+											$('#img_pic_' + (i + 1)).show();
+											$('#div_check_' + (i + 1)).show();
+
+											document.getElementById('img_pic_' + (i + 1)).src = $scope.imgs[i];
+										} else {
+											$('#img_delete_' + (i + 1)).hide();
+											$('#img_pic_' + (i + 1)).hide();
+											$('#div_check_' + (i + 1)).hide();
+										}
+
+									}
+								} else {
+									$scope.selectedIndex = 0;
+									for(var i = 0; i < 9; i++) {
+
+										$('#img_delete_' + (i + 1)).hide();
+										$('#img_pic_' + (i + 1)).hide();
+										$('#div_check_' + (i + 1)).hide();
+									}
+								}
+
+							};
+							$scope.checkPic = function(index) {
+
+								for(var i = 0; i < 9; i++) {
+									if(i != index) {
+
+										$("#inp_title_pic_" + (i + 1)).attr("checked", false);
+
+									} else {
+										$scope.selectedIndex = i;
+										$("#inp_title_pic_" + (i + 1)).attr("checked", true);
+									}
+								}
+							}
+
+						});
+				});
+			});
+		</script>
+	</body>
+
+</html>

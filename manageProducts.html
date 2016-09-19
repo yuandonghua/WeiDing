@@ -1,0 +1,103 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link href="css/manageProducts.css" rel="stylesheet" />
+		<script type="text/javascript" src="js/main.js"></script>
+		<script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+		<script src="http://apps.bdimg.com/libs/angular.js/1.4.6/angular.min.js"></script>
+		<script src="js/wxutil.js"></script>
+	</head>
+
+	<body ng-app="app" ng-controller="controller">
+
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-icon mui-icon-left-nav mui-pull-left" href="me.html"></a>
+			<h1 class="mui-title">我的商品</h1>
+		</header>
+		<div class="mui-content">
+			<ul class="mui-table-view">
+				<li class="mui-table-view-cell mui-media" ng-repeat="goods in goodsList">
+					<a href="javascript:;">
+						<img id="img_goods" class="mui-media-object mui-pull-left" ng-src="{{SERVER_IMG+goods.titlePic}}">
+						<div class="mui-media-body">
+							<p id="desc" class='mui-ellipsis'>{{goods.title}}</p>
+							<p id="price" class='mui-ellipsis'>￥{{goods.price}}</p>
+							<p id="number" class='mui-ellipsis'>销量&nbsp;{{goods.buyNum}}&nbsp;&nbsp;&nbsp;&nbsp;分享&nbsp;{{goods.shareNum}}</p>
+							<button id="btn_edit" type="button" class="mui-btn mui-btn-primary" ng-show="{{goods.storeId == store_id}}" ng-click="edit(goods.id)">编辑</button>
+							<button id="btn_delete" type="button" class="mui-btn mui-btn-mini" ng-click="delete(goods.id)">删除</button>
+
+						</div>
+					</a>
+				</li>
+
+			</ul>
+			<div id="div_bottom">
+
+				<ul id="ul_bottom">
+					<li id="li_add_goods" >
+						<a href="addProduct.html">
+							<img id="img_add_goods" src="img/ic_add_goods.png" />
+						</a>
+						
+					</li>
+					<li id="li_line"> 
+						<img id="img_line"/>
+					</li>
+					<li id="li_select_goods">
+						<a>
+							<img id="img_select_goods" src="img/ic_select_goods.png" />
+						</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript">
+			mui.init()
+		</script>
+		<script type="text/javascript">
+			var app = angular.module('app', []);
+			app.controller("controller", function($scope, $http) {
+				$scope.SERVER_IMG = SERVER_IMG;
+
+				//由于微信认证过程需要时间，所以将用户信息获得作成一个事件，监听这个事件就能保证获取用户信息
+				document.addEventListener("userReadyEvent", function() {
+					$scope.store_id = user.store_id;
+					console.log("store_id:" + $scope.store_id);
+					//获取商品列表
+					$http.jsonp('http://ifc.dressbook.cn/storeInfoAndGoodsListGet.jsonp?callback=JSON_CALLBACK&store_id=' + user.store_id + "&user_id=" + user.user_id)
+						.success(function(response) {
+							$scope.goodsList = response.info.goodsList;
+						});
+
+				});
+				//点击删除
+				$scope.delete = function(goods_id) {
+
+					$http.jsonp('http://ifc.dressbook.cn/wtWdGoodsDelete.jsonp?callback=JSON_CALLBACK&goods_id=' + goods_id + "&user_id=" + user.user_id)
+						.success(function(response) {
+
+							//获取商品列表
+							$http.jsonp('http://ifc.dressbook.cn/storeInfoAndGoodsListGet.jsonp?callback=JSON_CALLBACK&store_id=' + user.store_id + "&user_id=" + user.user_id)
+								.success(function(response) {
+									$scope.goodsList = response.info.goodsList;
+								});
+
+						});
+
+				};
+				//点击编辑
+				$scope.edit = function(goods_id) {
+					console.log("点击编辑");
+					window.location.href = SERVER + 'previewProduct.html?goods_id=' + goods_id;
+				};
+			});
+		</script>
+	</body>
+
+</html>

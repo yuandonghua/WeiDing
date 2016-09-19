@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<script src="js/mui.min.js"></script>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link href="css/shangpinxiangqing.css" rel="stylesheet" />
+		<link href="css/iconfont.css" rel="stylesheet" />
+		<script src="http://apps.bdimg.com/libs/angular.js/1.4.6/angular.min.js"></script>
+		<script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+		<script src="js/wxutil.js"></script>
+		<script type="text/javascript" charset="utf-8">
+			mui.init();
+		</script>
+		<script type="text/javascript" src="js/main.js">
+		</script>
+	</head>
+
+	<body ng-app="myApp" ng-controller="myCtl">
+		<header class="mui-bar mui-bar-nav">
+			<a href="dynamic.html?goods_id={{goods_id}}" class="mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<!--<img class="arrow_left mui-action-back mui-pull-left " src="img/arrow_left.png" />-->
+			<h1 class="title mui-title">商品详情</h1>
+
+			<!--<a class=" mui-icon  mui-pull-right iconfont icon-gengduo" id="gengduo"></a>
+			<a class=" mui-icon  mui-pull-right iconfont icon-fenxiang" id="fenxiang"></a>-->
+		</header>
+		<div class="mui-content">
+			<div class="div_content_top">
+				<ul class="ul_shangpin_top">
+					<li>
+						<img width="100%" ng-src="{{SERVER_IMG+wdGoods.wdGoodsImgs[0].path}}" />
+					</li>
+					<li>
+						<p class="p_shangpin_bt">
+							{{wdGoods.title}}
+						</p>
+					</li>
+					<li>
+						<p class="fuhao">
+							￥
+							<span class="jiage">{{wdGoods.price}}</span>
+						</p>
+					</li>
+				</ul>
+
+			</div>
+			<div class="div_content_dianpu" ng-click="clickDianPu(wdGoods.storeId)">
+				<ul class="ul_dianpu">
+					<li>
+						<img class="dianzhu_tx" ng-src="{{cmtPosts[0].userAvatar}}" />
+					</li>
+					<li>
+						<p class="p_dianpuming">
+							{{wdGoods.wdStore_title}}
+						</p>
+					</li>
+					<li id="ul_dianpu_last_li">
+						<a id="you_jiantou" class=" mui-icon mui-icon-arrowright "></a>
+					</li>
+				</ul>
+			</div>
+			<div class="div_content_manaypics">
+				<ul class="ul_shangpin_quanbu_tp">
+					<li ng-repeat="x in wdGoods.wdGoodsImgs">
+						<img ng-src="{{SERVER_IMG+x.path}}" />
+					</li>
+
+				</ul>
+			</div>
+
+		</div>
+
+		<script type="text/javascript">
+			var myApp = angular.module('myApp', []);
+			myApp.controller('myCtl', function($scope, $http) {
+				$scope.goods_id = getQueryString('goods_id');
+
+				//由于微信认证过程需要时间，所以将用户信息获得作成一个事件，监听这个事件就能保证获取用户信息
+				document.addEventListener("userReadyEvent", function() {
+					$scope.user = user;
+
+					$http.jsonp('http://ifc.dressbook.cn/goodsDynamicInfoGet.jsonp?goods_id=' + $scope.goods_id + '&user_id=' + $scope.user.user_id + '&callback=JSON_CALLBACK')
+						.success(function(response) {
+
+							$scope.SERVER_IMG = SERVER_IMG;
+							$scope.wdGoods = response.info.wdGoods;
+							$scope.cmtPosts = response.info.cmtPosts;
+
+						});
+						
+				//点击店铺
+				$scope.clickDianPu = function(id) {
+
+					window.location.href = SERVER + 'friendWD.html' + "?store_id=" + id;
+
+				};
+						
+				});
+
+			});
+		</script>
+	</body>
+
+</html>

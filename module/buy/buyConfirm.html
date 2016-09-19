@@ -1,0 +1,274 @@
+<!--购买确认页面-->
+
+<!DOCTYPE html>
+
+<script type="text/javascript" src="assets/js/angular/angular-1.5.5.js"></script>
+<script type="text/javascript" src="assets/js/angular/angular-messages.js"></script>
+<script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+<script src="../../js/wxutil.js"></script>
+<script src="jquery.md5.js"></script>
+<script src="payment.js"></script>
+<script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<link rel="stylesheet" type="text/css" href="assets/css/buyConfirm.css" />
+
+
+
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>确认订单</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
+	<meta content="telephone=no" name="format-detection">
+	<meta content="yes" name="apple-mobile-web-app-capable">
+	<meta content="black" name="apple-mobile-web-app-status-bar-style">
+
+</head>
+<style>
+
+</style>
+
+<body ng-app="orderApp" ng-controller="orderController" n>
+	<div class="app-pay" style="padding-bottom: 80px;">
+		<div class="app-header">
+			<i class="ico_bn ico_back" onClick="window.history.go(-1);"></i>
+			<h2>
+				确认订单
+			</h2>
+		</div>
+
+		<div class="pay-address" ng-click="toaddrManage()">
+
+			<p class="address-top" data-role="editAddress">
+				收货人：{{address.consignee}}
+				<span>{{address.mobile}}</span>
+			</p>
+			<div class="address-info" data-role="editAddress">
+				<i class="ico_bn ico_address"></i>
+				<span><label>
+						收货地址：
+					</label>{{address.address}}</span>
+			</div>
+
+		</div>
+		<div class="ui_mt10 lay-mian bor-top">
+			<div class="lay-top clearfix">
+				<span class="l-t-name"> <i class="ico_bn ico_store"></i> 兴国微店 </span>
+			</div>
+
+			<div class="lay-conent">
+				<span class="lay-c-img"> <img ng-src="http://st.dressbook.cn{{cart.goodsSet.pic}}" />
+					</span>
+				<div class="lay-c-txt">
+					<h3 ng-bind="">
+						{{cart.goodsSet.title}}
+					</h3>
+					<p class="lay-stand" data-standtext='1'>
+						{{cart.goodsSet.descr}}
+					</p>
+					<p class="lay-pr">
+						<b class="ui_left">￥
+							{{cart.goodsSet.price}}
+							
+							</b>
+						<!--<span class="prod-v-profit ui_left" style="color:#FFF">消费积分：0.1V</span>-->
+						<span class="ui_right"><small>×</small><span
+								data-nowNum='1'>
+								{{cart.count}}</span>
+						</span>
+					</p>
+				</div>
+			</div>
+
+		</div>
+		<div class="pay-prices">
+
+			<p class="pay-yf">
+				<label>
+					运费
+				</label>
+				<span class="pay-yf-my">￥0.0</span>
+			</p>
+			<p class="pay-yf">
+				<textarea placeholder="买家留言" style="background: #EEEEEE;" value="" id="s_msg" placeholder="最多140字" maxlength="140"></textarea>
+			</p>
+
+			<p class="pay-all-price clearfix">
+
+				<span class="ui_right">共{{cart.count}}件商品<font>合计：
+				
+				<b class="c-red">￥{{cart.goodsSet.price*cart.count}}</b>
+				</font>
+				</span>
+			</p>
+		</div>
+		<!--V值 start-->
+		<div class="v-repice">
+			<span class="v-r-left">
+				
+					帐户可用余额<em data-double="0.00" data-h="V">{{balance}}</em>
+
+            </span>
+
+			<span class="v-r-open" data-opse='1' data-useVDeductible="0.00">
+					<i class='op'></i>
+			</span>
+
+		</div>
+		<!--V值 end-->
+		<div class="ui_mt10 pay_way">
+			<h3>
+				付款方式
+			</h3>
+			<ul class="pay_list">
+
+
+				<li class="clearfix pay_active" data-type="2">
+
+					<label class="pay_list_label">
+						<span class="pay_ico"> <img src="/assets/images/wechat.png">
+						</span>
+						<span>微信支付</span>
+					</label>
+				</li>
+
+
+			</ul>
+		</div>
+		<div class="order_foot clearfix">
+			<!--  
+			<p class="ui_left ui_ml10">
+				共计：
+				<b class="c-red">1</b>件
+			</p>
+			-->
+			<div class="order_price ui_right">
+				<span class="">合计：<b class="c-red">￥{{topay}}</b>
+				</span>
+				<button type="button" class="btn_gobuy" ng-click="submit()">
+					确定
+				</button>
+			</div>
+		</div>
+	</div>
+</body>
+
+<script type="text/javascript">
+	angular.module('orderApp', ['ngMessages'])
+			.controller('orderController', function ($scope, $http) {
+
+				document.addEventListener("userReadyEvent", function() {
+
+									//检查session中是否登录  --> to login
+				// var userJson = sessionStorage.getItem('_user_');
+				// if(userJson == null){
+				// 	alert('请先登录!');
+				// 	window.location = 'login.html';
+				// 	return;
+				// }else{
+				// 	$scope.user = JSON.parse(userJson);
+				// }
+
+				//检查session中是否有地址
+				var addressJson = sessionStorage.getItem('_address_');
+				//==> 如果没有, ajax请求获取对应的地址
+				if (addressJson == null){
+					$http.jsonp('http://ifc.dressbook.cn/addressListForUser.jsonp?user_id='+user.user_id +'&callback=JSON_CALLBACK')
+							.success(function (result) {
+								
+								var add = result.info[0];
+								//如果没有地址
+								if (!add){ //获取不到 --> to addNewAddr
+									alert('当前还没有收货地址,请先添加!');
+									window.location = 'addNewAddr.html';
+									return;
+								}
+
+								//有地址  保存到session
+								sessionStorage.setItem('_address_', JSON.stringify(add));
+
+								$scope.address = add;
+							})
+							.error(function (result) {
+								alert(result);
+							});
+				}else {
+					$scope.address = JSON.parse(addressJson);
+				}
+
+
+					// $http.jsonp('http://ifc.dressbook.cn/wdOrdersGet.jsonp?user_id='+user.user_id +'&callback=JSON_CALLBACK')
+					// 		.success(function (result) {
+					// 			$scope.order = result.info.buyOrders.pop();
+					// 			alert(JSON.stringify($scope.order));
+					// 		})
+					// 		.error(function (result) {
+					// 			alert(result);
+					// 		});
+
+				// 检查session中是否有购物车
+				var cartJson = sessionStorage.getItem('_cart_');
+				
+				//hack for test
+				if(cartJson == null)
+				{
+					var goods_id = 14;
+					//获取购买详情
+					$http.jsonp('http://ifc.dressbook.cn/wdGoodsSetListGet.jsonp?goods_id=' + goods_id + '&callback=JSON_CALLBACK')
+						.success(function(response) {
+							$scope.cart = {
+								goodsSet:response.info.goodsSets[0],
+								count:2,
+								freight:10
+							};
+							sessionStorage.setItem('_cart_', JSON.stringify($scope.cart));
+						});
+				}
+
+				if (cartJson == null){
+					alert('当前购物车中没有商品');
+					// window.location = 'index.html';
+				}else{
+						
+						$scope.cart = JSON.parse(cartJson);
+						$scope.$apply()
+						//alert(JSON.stringify($scope.cart));
+
+				}
+				
+				//确认支付
+				$scope.submit = function () {
+					payment().applyBinding(user.user_id, $scope.address.id, $scope.cart.goodsSet.wdGoods.storeId, $scope.cart.goodsSet.id, $scope.cart.count);
+				};
+
+				$scope.toaddrManage = function () {
+					window.location = 'addrManage.html';
+				}
+
+				//更新资产信息
+				$.ajax({
+				url: dbkUrl+"/wdUsersWealthGet.jsonp",
+				data:"user_id="+user.user_id,
+				type: "GET",
+				async: true,
+				dataType: 'JSONP',
+				success: function(data) {
+					if(data.code==1){
+						$scope.balance = data.info.myWealth.info.saleAvailable;
+						$scope.topay = $scope.cart.goodsSet.price * $scope.cart.count - $scope.balance;
+						if($scope.topay<0.0){
+							$scope.topay = 0.0;
+						}
+						$scope.$apply()
+					}
+				}
+			});
+
+				
+				});
+
+			});
+</script>
+
+</html>

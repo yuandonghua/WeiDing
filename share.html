@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<script src="js/mui.min.js"></script>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link href="css/dongtai.css" rel="stylesheet" />
+		<link href="css/iconfont.css" rel="stylesheet" />
+		<script src="http://apps.bdimg.com/libs/angular.js/1.4.6/angular.min.js"></script>
+		<script type="text/javascript" charset="utf-8">
+			mui.init();
+		</script>
+		<script type="text/javascript" src="js/main.js">
+		</script>
+		<script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js">
+		</script>
+		<script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+		<script src="js/wxutil.js"></script>
+	</head>
+
+	<body ng-app="myApp" ng-controller="myCtl">
+		<header class="mui-bar mui-bar-nav">
+			<a href="friendWD.html?store_id={{store_id}}" class="mui-pull-left mui-icon mui-icon-left-nav">
+
+				<p>好友微定</p>
+			</a>
+
+			<h1 class="mui-title">动态</h1>
+
+		</header>
+		<div class="mui-content">
+			<div class="content_top">
+				<!--顶部的动态图片-->
+				<img width="100%" ng-src="{{SERVER_IMG+cmtPosts[0].cmtPostsImgs[0].url}}" />
+				<!--<div class="c_t_t">
+					
+				</div>-->
+				<div class="c_t_dianpu" ng-click="clickDianPu(wdGoods.storeId)">
+					<img class="c_t_dianpu_tx" src="img/test_head_1.png" ng-src="{{cmtPosts[0].userAvatar}}" />
+					<span class="zmshg">{{info.wdStore_title}}</span>
+					<a class="jrdp"><span>
+						<img src="img/arrow_right.png"/>
+						
+						
+					</span></a>
+				</div>
+			</div>
+			<div class="content-center">
+				<div class="c_c_s">
+					<div class="div_shangpin" ng-click="clickShangPin(wdGoods.id)">
+						<ul class="ul_shangpinxinxi">
+							<li class="li_tupian">
+								<img src="img/ic_sp.png" />
+							</li>
+							<li class="li_biaoti">
+								<p>{{wdGoods.title}}</p>
+							</li>
+							<li class="li_shuliang">
+								<img src="img/ic_ys.png" />
+								<span>{{wdGoods.buyNum}}</span>
+								<img class="sc" src="img/ic_sc.png" />
+								<span>{{wdGoods.shareNum}}</span>
+							</li>
+						</ul>
+
+					</div>
+
+					<div class="div_goumai">
+						<a href="#goumai">
+							<span class="gm_btn">购买</span>
+							<br />
+							<span class="price">￥{{wdGoods.price}}</span>
+						</a>
+					</div>
+					<div class="gm_line"></div>
+				</div>
+				<div class="div_haoyou">
+					<span>买过的好友</span>
+					<br />
+					<ul>
+						<li ng-repeat="haoyou in buyUsers">
+							<img ng-src="{{haoyou.avatar}}" />
+						</li>
+
+					</ul>
+				</div>
+				<div class="div_pingjia" ng-click="clickQuanBuPingJia(wdGoods.id)">
+
+					<img class="img_pingjiaren" ng-src='{{goodsComment.avatar}}' />
+					<div class="div_pingjia_neirong">
+						<span>
+							{{goodsComment.userName}}
+							<br />
+							{{goodsComment.words}}
+							</span>
+					</div>
+					<div class="c_c_x_y">
+						<a href="" class="qbpj">
+							<img src="img/arrow_right.png" />
+							<p>
+								看评价
+							</p>
+
+						</a>
+					</div>
+
+				</div>
+			</div>
+			<div class="content_footer">
+				<div class="footer_title">
+					<span class="dt_line"></span>
+					<span class="dt_title">动态</span>
+
+				</div>
+				<!--商品动态-->
+				<div>
+
+					<ul class="ul_dongtai">
+						<li class="li_dongtai" ng-repeat="dongtai in cmtPosts">
+							<img class="div_dongtai_tupian" ng-src="{{SERVER_IMG+dongtai.cmtPostsImgs[0].url}}" />
+							<div class="div_dongtai_neirong">
+								<p class="p_dongtai_miaoshu">{{dongtai.content}}</p>
+								<p class="p_dongtai_time">{{dongtai.addTimeShow}}</p>
+							</div>
+						</li>
+					</ul>
+
+				</div>
+
+			</div>
+
+			<!--购买时弹出商品详情-->
+			<div id="goumai" class="mui-popover mui-popover-bottom mui-popover-action ">
+
+				<ul class="mui-table-view">
+
+					<li class="mui-table-view-cell  mui-media">
+						<a href="javascript:;" class="">
+							<img id="shangpin_tp" class=" mui-pull-left" ng-src="{{SERVER_IMG+wdGoods.titlePic}}">
+							<div class="mui-media-body">
+								{{wdGoods.title}}
+								<p id="p_jiage" class="mui-ellipsis">￥{{wdGoods.price}}</p>
+							</div>
+						</a>
+
+					</li>
+					<li class="mui-table-view-cell  mui-media">
+						<ul class="mui-table-view" id="ul_taocan">
+
+							<li class="mui-table-view-cell  mui-media" ng-repeat="x in goodsSets">
+								<p>{{x.title}}</p>
+							</li>
+						</ul>
+					</li>
+					<li class="mui-table-view-cell">
+						购买数量:
+						<div class="mui-numbox">
+							<button class="mui-btn mui-btn-numbox-minus" type="button">-</button>
+							<input class="mui-input-numbox" type="number" />
+							<button class="mui-btn mui-btn-numbox-plus" type="button">+</button>
+						</div>
+					</li>
+				</ul>
+
+				<ul class="mui-table-view">
+					<li class="mui-table-view-cell">
+						<a href="#goumai"><b>立即购买</b></a>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<script type="text/javascript">
+			var goods_id = getQueryString('goods_id');
+
+			var myApp = angular.module('myApp', []);
+
+			myApp.controller('myCtl', function($scope, $http) {
+				$scope.store_id = getQueryString('store_id');
+				//由于微信认证过程需要时间，所以将用户信息获得作成一个事件，监听这个事件就能保证获取用户信息
+				document.addEventListener("userReadyEvent", function() {
+					$scope.user = user;
+					//获取动态详情
+					$http.jsonp('http://ifc.dressbook.cn/goodsDynamicInfoGet.jsonp?goods_id=' + goods_id + '&user_id=' + $scope.user.user_id + '&callback=JSON_CALLBACK')
+						.success(function(response) {
+
+							$scope.SERVER_IMG = SERVER_IMG;
+							$scope.info = response.info;
+							$scope.wdGoods = response.info.wdGoods;
+							$scope.cmtPosts = response.info.cmtPosts;
+							$scope.goodsComment = response.info.goodsComment;
+							$scope.buyUsers = response.info.buyUsers;
+
+						});
+
+					//获取购买详情
+					$http.jsonp('http://ifc.dressbook.cn/wdGoodsSetListGet.jsonp?goods_id=' + goods_id + '&callback=JSON_CALLBACK')
+						.success(function(response) {
+
+							$scope.goodsSets = response.info.goodsSets;
+
+						});
+				});
+
+				//点击商品
+				$scope.clickShangPin = function(id) {
+
+					window.location.href = 'productDetails.html' + "?goods_id=" + id;
+
+				};
+				//点击店铺
+				$scope.clickDianPu = function(id) {
+
+					window.location.href = SERVER + 'friendWD.html' + "?store_id=" + id;
+
+				};
+				//点击全部评价
+				$scope.clickQuanBuPingJia = function(id) {
+
+					window.location.href = SERVER + 'shangpinquanbupinglun.html' + "?goods_id=" + id;
+
+				};
+				//获取微信分享配置信息
+				$http.jsonp('http://ifc.dressbook.cn/weXConfigSignGet.jsonp?callback=JSON_CALLBACK&url=' + encodeURIComponent(location.href))
+					.success(function(response) {
+						$scope.wxinfo = response.info;
+						//微信分享配置
+						wx.config({
+							debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+							appId: 'wxcded79a899c9ef25', // 必填，公众号的唯一标识
+							timestamp: $scope.wxinfo.timestamp, // 必填，生成签名的时间戳
+							nonceStr: $scope.wxinfo.nonceStr, // 必填，生成签名的随机串
+							signature: $scope.wxinfo.signature, // 必填，签名，见附录1
+							jsApiList: ['onMenuShareTimeline', 'onMenuShareAppMessage'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+
+						});
+						wx.ready(function() {
+							// config信息验证后会执行ready方法，所有接口调用都必须在config接口获得结果之后，
+							//config是一个客户端的异步操作，所以如果需要在页面加载时就调用相关接口，
+							//则须把相关接口放在ready函数中调用来确保正确执行。对于用户触发时才调用的接口，
+							//则可以直接调用，不需要放在ready函数中。
+							//分享到朋友圈
+							if($scope.wdGoods != null && $scope.cmtPosts != null && $scope.cmtPosts.length > 0) {
+
+								wx.onMenuShareTimeline({
+
+									title: $scope.cmtPosts[0].content, // 分享标题
+									link: SERVER + 'share.html' + "?goods_id=" + $scope.wdGoods.id + '&sharefrom=' + $scope.user.user_id + "&store_id=" + $scope.user.store_id, // 分享链接
+									imgUrl: SERVER_IMG + $scope.cmtPosts[0].cmtPostsImgs[0].url, // 分享图标
+									success: function() {
+										// 用户确认分享后执行的回调函数
+										//添加分享次数
+										$http.jsonp('http://ifc.dressbook.cn/wtWdGoodsShare.json?goods_id=' + $scope.wdGoods.id + '&callback=JSON_CALLBACK')
+											.success(function(response) {
+
+											});
+									},
+									cancel: function() {
+										// 用户取消分享后执行的回调函数
+
+									}
+								});
+								//分享给朋友
+								wx.onMenuShareAppMessage({
+									title: $scope.cmtPosts[0].title, // 分享标题
+									desc: $scope.cmtPosts[0].content, // 分享描述
+									link: SERVER + 'share.html' + "?goods_id=" + $scope.wdGoods.id + '&sharefrom=' + $scope.user.user_id + "&store_id=" + $scope.user.store_id, // 分享链接
+									imgUrl: SERVER_IMG + $scope.cmtPosts[0].cmtPostsImgs[0].url, // 分享图标
+									type: 'link', // 分享类型,music、video或link，不填默认为link
+									dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+									success: function() {
+										// 用户确认分享后执行的回调函数
+										//添加分享次数
+										$http.jsonp('http://ifc.dressbook.cn/wtWdGoodsShare.json?goods_id=' + $scope.wdGoods.id + '&callback=JSON_CALLBACK')
+											.success(function(response) {
+
+
+
+											});
+									},
+									cancel: function() {
+										// 用户取消分享后执行的回调函数
+										
+									}
+								});
+							}
+						});
+
+						wx.error(function(res) {
+							// config信息验证失败会执行error函数，如签名过期导致验证失败，
+							//具体错误信息可以打开config的debug模式查看，也可以在返回的res参数中查看，对于SPA可以在这里更新签名。
+
+						});
+
+					});
+
+			});
+		</script>
+	</body>
+
+</html>

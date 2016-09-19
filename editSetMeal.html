@@ -1,0 +1,222 @@
+<!doctype html>
+<html lang="en" class="feedback">
+
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+
+		<link rel="stylesheet" type="text/css" href="css/mui.min.css" />
+		<link rel="stylesheet" type="text/css" href="css/editSetMeal.css" />
+		<script src="js/main.js"></script>
+		<script src="http://apps.bdimg.com/libs/angular.js/1.4.6/angular.min.js"></script>
+		<script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+		<script src="js/wxutil.js"></script>
+		<script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js">
+		</script>
+	</head>
+
+	<body ng-app="app" ng-controller="controller">
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-icon mui-icon-left-nav mui-pull-left" href="previewProduct.html?goods_id={{goods_id}}" +></a>
+			<h1 class="mui-title">新增套餐</h1>
+			<a id="a_save" class="mui-icon mui-pull-right" ng-click="saveData()">保存</a>
+		</header>
+		<div class="mui-content">
+			<ul class="mui-table-view mui-table-view-chevron">
+				<li class="mui-table-view-cell mui-media">
+
+					<div class="mui-media-body">
+						套餐名称
+						<div class="mui-input-row">
+							<input id="name" ng-model="mealName" type="text" placeholder="请填写套餐名称"></input>
+						</div>
+					</div>
+				</li>
+			</ul>
+			<ul id="" class="mui-table-view mui-table-view-chevron">
+				<li class="mui-table-view-cell">
+
+					<div class="mui-media-body">
+						套餐介绍
+						<div class="mui-input-row">
+							<textarea id="setmeal_introduce" ng-model="mealIntroduce" rows="2" placeholder="请填写套餐介绍"></textarea>
+						</div>
+					</div>
+				</li>
+			</ul>
+			<ul id="" class="mui-table-view mui-table-view-chevron">
+				<li class="mui-table-view-cell">
+
+					<div class="mui-media-body">
+						套餐价格
+						<div class="mui-input-row">
+							￥<input id="price" type="number" ng-model="mealPrice" placeholder="请填写套餐价格"></input>
+						</div>
+					</div>
+				</li>
+			</ul>
+			<div id="div_goods_title_pic" class="title">
+				商品题图
+				<button id="btn_change_pic" type="button" class="mui-btn mui-btn-danger" ng-click="openAlbum()">
+					更换题图
+					</button>
+			</div>
+			<div id="div_pic">
+				<img id="img_pic">
+			</div>
+			
+			<div id="div_prompt">
+				1张套餐提示图(购买商品选择套餐时显示的图片)
+			</div>
+		</div>
+		<script src="js/mui.min.js"></script>
+		<!--<script src="js/fadongtai.js" type="text/javascript" charset="utf-8"></script>-->
+		<script type="text/javascript">
+			mui.init();
+			mui('.mui-scroll-wrapper').scroll();
+		</script>
+		<script type="text/javascript" src="js/fadongtai.js">
+		</script>
+		<script type="text/javascript">
+			var myApp = angular.module('app', []);
+
+			myApp.controller('controller', function($scope, $http) {
+
+				//由于微信认证过程需要时间，所以将用户信息获得作成一个事件，监听这个事件就能保证获取用户信息
+				document.addEventListener("userReadyEvent", function() {
+					$scope.SERVER_IMG = SERVER_IMG;
+					$scope.goodsSet_id = getQueryString("goodsSet_id");
+					$scope.goods_id = getQueryString("goods_id");
+					$scope.mealName = "";
+					$scope.mealIntroduce = "";
+					$scope.mealPrice = "";
+
+					$scope.user = user;
+
+					//获取商品详情
+					$http.jsonp('http://ifc.dressbook.cn/wdGoodsSetListGet.jsonp?callback=JSON_CALLBACK&goods_id=' + $scope.goods_id)
+						.success(function(response) {
+
+
+							//套餐详情
+							$scope.goodsSets = response.info.goodsSets;
+							
+							for (var i=0;i<$scope.goodsSets.length;i++) {
+								if($scope.goodsSets[i].id==$scope.goodsSet_id){
+
+									$scope.mealName=$scope.goodsSets[i].title;
+									$scope.mealIntroduce=$scope.goodsSets[i].descr;
+									$scope.mealPrice=$scope.goodsSets[i].price;
+									$scope.wxImgId=SERVER_IMG+$scope.goodsSets[i].pic;
+									document.getElementById('img_pic').src = $scope.wxImgId;
+									
+								}
+							}
+							
+							
+							
+
+						});
+
+					//获取微信分享配置信息
+					$http.jsonp('http://ifc.dressbook.cn/weXConfigSignGet.jsonp?callback=JSON_CALLBACK&url=' + encodeURIComponent(location.href))
+						.success(function(response) {
+							$scope.wxinfo = response.info;
+
+							wx.config({
+								debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+								appId: 'wxcded79a899c9ef25', // 必填，公众号的唯一标识
+								timestamp: $scope.wxinfo.timestamp, // 必填，生成签名的时间戳
+								nonceStr: $scope.wxinfo.nonceStr, // 必填，生成签名的随机串
+								signature: $scope.wxinfo.signature, // 必填，签名，见附录1
+								jsApiList: ['chooseImage', 'uploadImage'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+
+							});
+							wx.ready(function() {
+								// config信息验证后会执行ready方法，所有接口调用都必须在config接口获得结果之后，
+								//config是一个客户端的异步操作，所以如果需要在页面加载时就调用相关接口，
+								//则须把相关接口放在ready函数中调用来确保正确执行。对于用户触发时才调用的接口，
+								//则可以直接调用，不需要放在ready函数中。
+								mui.toast('可以开始上传图片了');
+
+								$scope.wxImgId = "";
+								//打开相册
+								$scope.openAlbum = function() {
+
+									wx.chooseImage({
+										count: 1, // 默认9
+										sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
+										sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
+										success: function(res) {
+											var ids = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
+
+											if(ids.length == 1) {
+
+												$scope.wxImgId = ids[0];
+											}
+
+											document.getElementById('img_pic').src = $scope.wxImgId;
+
+										}
+									});
+
+								};
+
+								$scope.saveData = function() {
+
+									if($scope.mealName == "") {
+										mui.toast("套餐名称不能为空");
+										return;
+									} else if($scope.mealIntroduce == "") {
+										mui.toast("套餐描述不能为空");
+										return;
+									} else if($scope.mealPrice == "") {
+										mui.toast("套餐价格不能为空");
+										return;
+									} else if($scope.goodsSet_id == "" || $scope.goodsSet_id == "{{goodsSet_id}}") {
+										mui.toast("套餐id不能为空");
+										return;
+									} else {
+										if($scope.wxImgId == "" || $scope.wxImgId.indexOf("http")==0) {
+											//不修改套餐图片
+											$http.jsonp('http://ifc.dressbook.cn/wtWdGoodsSetUpdate.jsonp?callback=JSON_CALLBACK&goodsSet_id=' +
+													$scope.goodsSet_id + "&title=" + $scope.mealName + "&descr=" + $scope.mealIntroduce + "&price=" + $scope.mealPrice)
+												.success(function(response) {
+
+													window.location.href = SERVER + "previewProduct.html?goods_id=" + $scope.goods_id;
+
+												});
+										} else {
+
+											//修改套餐图片
+											//上传图片到微信服务器
+											wx.uploadImage({
+												localId: $scope.wxImgId, // 需要上传的图片的本地ID，由chooseImage接口获得
+												isShowProgressTips: 1, // 默认为1，显示进度提示
+												success: function(res) {
+													var mediaId = res.serverId; // 返回图片的服务器端ID
+
+													$http.jsonp('http://ifc.dressbook.cn/wtWdGoodsSetUpdate.jsonp?callback=JSON_CALLBACK&goodsSet_id=' +
+															$scope.goodsSet_id + "&title=" + $scope.mealName + "&descr=" + $scope.mealIntroduce + "&price=" + $scope.mealPrice + "&mediaId=" + mediaId)
+														.success(function(response) {
+
+															window.location.href = SERVER + "previewProduct.html?goods_id=" + $scope.goods_id;
+
+														});
+
+												}
+											});
+										}
+
+									}
+
+								}
+							});
+
+						});
+				});
+			});
+		</script>
+	</body>
+
+</html>

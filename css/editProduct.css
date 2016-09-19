@@ -1,0 +1,64 @@
+#div_goods_price,
+#div_goods_title_pic {
+	margin-top: 2px;
+	padding: 10px;
+	background: white;
+}
+
+#div_goods_title {
+	background: white;
+	padding: 10px;
+}
+
+.mui-input-row {
+	margin: 0;
+	padding: 0 10px 10px;
+	background: white;
+}
+
+#inp_title {
+	margin: 0;
+}
+
+.mui-media-body {
+	padding:0 10px ;
+	margin: 0;
+	background: white;
+	height: 24px;
+}
+#p_price {
+	float: left;
+	font-size: 14px;
+	color: #303030;
+	line-height: 14px;
+}
+
+#p_prompt_price {
+	float: right;
+	font-size: 14px;
+	color: #909090;
+	line-height: 20px;
+}
+#a_save {
+	font-size: 14px;
+	color: #303030;
+	height: 44px;
+	line-height: 44px;
+}
+
+
+
+
+
+#div_pic,#img_pic {
+	width: 100%;
+}
+
+#btn_change_pic {
+	color: #fff;
+	border: 1px solid #fc6666;
+	background-color: #fc6666;
+	float: right;
+	padding: 2px 12px;
+	font-size: 12px;
+}

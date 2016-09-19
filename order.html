@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>我的订单</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<!--标准mui.css-->
+		<link rel="stylesheet" href="css/mui.min.css">
+		<!--App自定义的css-->
+		<link rel="stylesheet" type="text/css" href="css/app.css" />
+		<script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+		<script src="js/wxutil.js"></script>
+		<style>
+			.mui-card .mui-control-content {
+				padding: 10px;
+			}
+			
+			.mui-control-content {
+				background-color: white;
+				min-height: 515px;
+			}
+			
+			.mui-control-content .mui-loading {
+				margin-top: 50px;
+			}
+			
+			.lable-title {
+				margin-left: -40px;
+			}
+			
+			.lable-state {
+				float: right;
+				color: red;
+			}
+			
+			#order-picture {
+				width: 100px;
+				height: 110px;
+				border-radius: 5px;
+				margin-right: 20px;
+			}
+		</style>
+	</head>
+
+	<body ng-app="myApp" ng-controller="myCtl">
+		<header class="mui-bar mui-bar-nav">
+			<a href="index.html" class=" mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">我的订单</h1>
+		</header>
+		<div class="mui-content">
+
+			<div style="padding: 10px 10px;">
+				<div id="segmentedControl" class="mui-segmented-control">
+					<a class="mui-control-item mui-active" href="#item1">
+						买家订单
+					</a>
+					<a class="mui-control-item" href="#item2">
+						卖家订单
+					</a>
+				</div>
+			</div>
+
+			<div id="item1" class="mui-control-content mui-active">
+				<div id="slider" class="mui-slider">
+					<div id="sliderSegmentedControl" class="mui-slider-indicator mui-segmented-control mui-segmented-control-inverted">
+						<a class="mui-control-item" href="#item1mobile">
+							全部
+						</a>
+						<a class="mui-control-item" href="#item2mobile">
+							待付款
+						</a>
+						<a class="mui-control-item" href="#item3mobile">
+							待发货
+						</a>
+						<a class="mui-control-item" href="#item4mobile">
+							待收货
+						</a>
+					</div>
+					<div id="sliderProgressBar" class="mui-slider-progress-bar mui-col-xs-3"></div>
+					<div class="mui-slider-group">
+						<div id="item1mobile" class="mui-slider-item mui-control-content mui-active">
+							<div id="cards-all" class="mui-scroll-wrapper">
+								<!--card-->
+								<!--
+                            <div class="mui-card">
+                                <div class="mui-card-header mui-card-media">
+                                    <div class="mui-media-body">
+
+                                        <label class="lable-title">定单号：20131415167</label>
+                                        <label class="lable-state">待付款</label>
+                                    </div>
+                                </div>
+                                <div class="mui-card-content">
+                                    <ul class="mui-table-view">
+                                        <li class="mui-table-view-cell mui-media">
+                                            <a href="javascript:;">
+                                                <img class="mui-pull-left" id="order-picture" src="imgs/logo.png">
+                                                <div class="mui-media-body" id="order-desc">
+                                                    <h4 class='mui-ellipsis' style="line-height:1.5">休闲紧身短裙</h4>
+                                                    <p class='mui-ellipsis' style="line-height:2">休闲紧身短裙定制</p>
+                                                    <p class='mui-ellipsis' style="line-height:2">定制图案、标签、颜色。。。。。。。。。。</p>
+                                                </div>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="mui-card-footer">
+                                    <button type="button" class="mui-btn mui-btn-outlined">取消定单</button>
+                                    <button type="button" class="mui-btn mui-btn-outlined mui-btn-danger">&nbsp;&nbsp;付&nbsp;款&nbsp;&nbsp;</button>
+                                </div>
+                            </div>
+                            -->
+							</div>
+						</div>
+						<div id="item2mobile" class="mui-slider-item mui-control-content">
+							<div id="cards-topay" class="mui-scroll-wrapper">
+							</div>
+
+						</div>
+						<div id="item3mobile" class="mui-slider-item mui-control-content">
+							<div id="cards-toship" class="mui-scroll-wrapper">
+							</div>
+
+						</div>
+
+						<div id="item4mobile" class="mui-slider-item mui-control-content">
+							<div id="cards-shipping" class="mui-scroll-wrapper">
+							</div>
+
+						</div>
+
+					</div>
+				</div>
+			</div>
+
+			<div id="item2" class="mui-control-content">
+				<div id="slider" class="mui-slider">
+					<div id="sliderSegmentedControl" class="mui-slider-indicator mui-segmented-control mui-segmented-control-inverted">
+						<a class="mui-control-item" href="#item1mobile2">
+							全部
+						</a>
+						<a class="mui-control-item" href="#item2mobile2">
+							待付款
+						</a>
+						<a class="mui-control-item" href="#item3mobile2">
+							待发货
+						</a>
+						<a class="mui-control-item" href="#item4mobile2">
+							待收货
+						</a>
+					</div>
+					<div id="sliderProgressBar" class="mui-slider-progress-bar mui-col-xs-3 mui-active"></div>
+					<div class="mui-slider-group">
+						<div id="item1mobile2" class="mui-slider-item mui-control-content mui-active">
+							<div id="seller-cards-all" class="mui-scroll-wrapper">
+								<!--card-->
+
+								<div class="mui-card">
+									<div class="mui-card-header mui-card-media">
+										<div class="mui-media-body">
+
+											<label class="lable-title">定单号：20131415167</label>
+											<label class="lable-state">待付款</label>
+										</div>
+									</div>
+									<div class="mui-card-content">
+										<ul class="mui-table-view">
+											<li class="mui-table-view-cell mui-media">
+												<a href="javascript:;">
+													<img class="mui-pull-left" id="order-picture" src="imgs/logo.png">
+													<div class="mui-media-body" id="order-desc">
+														<h4 class='mui-ellipsis' style="line-height:1.5">休闲紧身短裙</h4>
+														<p class='mui-ellipsis' style="line-height:2">休闲紧身短裙定制</p>
+														<p class='mui-ellipsis' style="line-height:2">定制图案、标签、颜色。。。。。。。。。。</p>
+													</div>
+												</a>
+											</li>
+										</ul>
+									</div>
+									<div class="mui-card-footer">
+										<button type="button" class="mui-btn mui-btn-outlined">取消定单</button>
+										<button type="button" class="mui-btn mui-btn-outlined mui-btn-danger">&nbsp;&nbsp;付&nbsp;款&nbsp;&nbsp;</button>
+									</div>
+								</div>
+
+							</div>
+						</div>
+						<div id="item2mobile2" class="mui-slider-item mui-control-content">
+							<div id="seller-cards-topay" class="mui-scroll-wrapper">
+							</div>
+
+						</div>
+						<div id="item3mobile2" class="mui-slider-item mui-control-content">
+							<div id="seller-cards-toship" class="mui-scroll-wrapper">
+							</div>
+
+						</div>
+
+						<div id="item4mobile2" class="mui-slider-item mui-control-content">
+							<div id="seller-cards-shipping" class="mui-scroll-wrapper">
+							</div>
+
+						</div>
+
+					</div>
+				</div>
+			</div>
+
+			<div id="item3" class="mui-control-content">
+				<ul class="mui-table-view">
+					<li class="mui-table-view-cell">
+						第二个选项卡子项-1
+					</li>
+					<li class="mui-table-view-cell">
+						第二个选项卡子项-2
+					</li>
+					<li class="mui-table-view-cell">
+						第二个选项卡子项-3
+					</li>
+				</ul>
+			</div>
+
+		</div>
+
+		<script src="js/mui.js"></script>
+		<script>
+			mui.init({
+				swipeBack: true //启用右滑关闭功能
+			});
+			var myApp = angular.module('myApp', []);
+
+			myApp.controller('myCtl', function($scope, $http) {
+			
+			});
+			(function($) {
+				$('#scroll').scroll({
+					indicators: true //是否显示滚动条
+				});
+				var segmentedControl = document.getElementById('segmentedControl');
+				$('.mui-input-group').on('change', 'input', function() {
+					if(this.checked) {
+						var styleEl = document.querySelector('input[name="style"]:checked');
+						var colorEl = document.querySelector('input[name="color"]:checked');
+						if(styleEl && colorEl) {
+							var style = styleEl.value;
+							var color = colorEl.value;
+							segmentedControl.className = 'mui-segmented-control' + (style ? (' mui-segmented-control-' + style) : '') + ' mui-segmented-control-' + color;
+						}
+					}
+				});
+			})(mui);
+		</script>
+
+		<script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+		<script src='js/order.js'></script>
+		<script src="js/wxutil.js" <script type="text/javascript">
+			document.addEventListener("userReadyEvent", function() {
+				fetchData();
+			});
+		</script>
+	</body>
+
+</html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>Hello MUI</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<link rel="stylesheet" href="css/mui.min.css">
+		<script src="js/mui.min.js "></script>
+		<script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js">
+		</script>
+		<script src="js/wxutil.js">
+		</script>
+		<style type="text/css">
+			#desc{
+				/*自动换行*/
+				white-space: normal;
+			}
+		</style>
+	</head>
+
+	<body class="mui-fullscreen">
+		<header class="mui-bar mui-bar-nav">
+			<a class=" mui-icon mui-icon-left-nav mui-pull-left" href="me.html"></a>
+			<h1 class="mui-title">设置</h1>
+		</header>
+		<div class="mui-content">
+			<ul class="mui-table-view mui-table-view-chevron">
+				<li class="mui-table-view-cell mui-media">
+					<a class="mui-navigate-right" href="setPhone.html">
+						<div class="mui-media-body">
+							我的手机号
+							<p id="phone" class='mui-ellipsis'></p>
+						</div>
+
+					</a>
+				</li>
+			</ul>
+			<ul id="" class="mui-table-view mui-table-view-chevron">
+				<li class="mui-table-view-cell">
+					<a href="setShopIntroduction.html" class="mui-navigate-right">
+						<div class="mui-media-body">
+							微集介绍
+							<p id="desc" class='mui-ellipsis' ></p>
+						</div>
+					</a>
+				</li>
+			</ul>
+
+		</div>
+		<script>
+			mui.init();
+
+			document.addEventListener("userReadyEvent", function() {
+
+				console.log("user_id:" + user.user_id);
+
+				//获取微信信息
+				$.ajax({
+					url: "http://ifc.dressbook.cn/storeInfoAndGoodsListGet.jsonp",
+					data: {
+						store_id: user.store_id,
+						user_id: user.user_id
+
+					},
+					type: "POST",
+					async: true,
+					dataType: 'JSONP',
+					success: function(data) {
+
+						if(data.code == 1) {
+							console.log("设置数据");
+							$("#desc").html(data.info.store.descr);
+							$("#phone").html(user.mobile);
+
+						}
+
+					}
+				});
+			});
+		</script>
+	</body>
+
+</html>

@@ -1,0 +1,97 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link href="css/previewProduct.css" rel="stylesheet" />
+		<script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+		<script src="http://apps.bdimg.com/libs/angular.js/1.4.6/angular.min.js"></script>
+		<script src="js/wxutil.js"></script>
+		<script src="js/main.js"></script>
+	</head>
+
+	<body ng-app="app" ng-controller="controller">
+
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-icon mui-icon-left-nav mui-pull-left" href="manageProducts.html"></a>
+			<h1 class="mui-title">商品预览</h1>
+		</header>
+		<div class="mui-content">
+			<ul class="mui-table-view">
+				<li class="mui-table-view-cell mui-media" ng-click="editProduct()">
+					<a id="a_item" class="mui-navigate-right" >
+						<img id="img_goods" class="mui-media-object mui-pull-left" ng-src="{{SERVER_IMG+goods.titlePic}}">
+						<div id="div_goods_content" class="mui-media-body">
+							<p id="desc" class='mui-ellipsis-2'>{{goods.title}}</p>
+							<p id="price" class='mui-ellipsis'>￥{{goods.price}}</p>
+
+						</div>
+					</a>
+				</li>
+
+			</ul>
+			<div id="div_setmeal" class="title">
+				套餐
+				<button id="btn_add_setmeal" type="button" class="mui-btn mui-btn-danger" ng-click="addSetMeal()">
+					新增套餐
+				</button>
+			</div>
+			<ul id="ul_setmeal" class="mui-table-view">
+				<li class="mui-table-view-cell mui-media" ng-repeat="setmeal in goodsSets">
+					<a id="a_item" class="mui-navigate-right" ng-click="editSetMeal(setmeal.id)">
+						<img id="img_goods" class="mui-media-object mui-pull-left" ng-src="{{SERVER_IMG+setmeal.pic}}">
+						<div id="div_goods_content" class="mui-media-body">
+							<p id="desc" class='mui-ellipsis-2'>{{setmeal.title}}</p>
+							<p id="price" class='mui-ellipsis'>￥{{setmeal.price}}</p>
+
+						</div>
+					</a>
+				</li>
+
+			</ul>
+		</div>
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript">
+			mui.init()
+		</script>
+		<script type="text/javascript">
+			var app = angular.module('app', []);
+			app.controller("controller", function($scope, $http) {
+				$scope.SERVER_IMG = SERVER_IMG;
+				$scope.goods_id = getQueryString("goods_id")
+					//由于微信认证过程需要时间，所以将用户信息获得作成一个事件，监听这个事件就能保证获取用户信息
+				document.addEventListener("userReadyEvent", function() {
+
+					//获取商品详情
+					$http.jsonp('http://ifc.dressbook.cn/wdGoodsSetListGet.jsonp?callback=JSON_CALLBACK&goods_id=' + $scope.goods_id)
+						.success(function(response) {
+							//商品详情
+							$scope.goods = response.info.goods;
+							//套餐详情
+							$scope.goodsSets = response.info.goodsSets;
+						});
+
+				});
+				//新增套餐
+				$scope.addSetMeal = function() {
+					window.location.href = SERVER + "addSetMeal.html?goods_id=" + $scope.goods_id;
+				};
+				//编辑商品
+				$scope.editProduct = function() {
+					window.location.href = SERVER + "editProduct.html?goods_id=" + $scope.goods_id;
+
+				};
+				//编辑商品
+				$scope.editSetMeal = function(goodsSet_id) {
+					window.location.href = SERVER + "editSetMeal.html?goods_id=" + $scope.goods_id+"&goodsSet_id="+goodsSet_id;
+
+				};
+
+			});
+		</script>
+	</body>
+
+</html>

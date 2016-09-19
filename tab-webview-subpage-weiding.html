@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>微定</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" href="css/mui.min.css">
+		<link rel="stylesheet" href="css/weiding.css">
+	</head>
+
+	<body>
+		<!--下拉刷新容器-->
+		<div id="pullrefresh" class="mui-content mui-scroll-wrapper ">
+			<div class="mui-scroll">
+
+				<!--数据列表-->
+				<ul class="mui-table-view mui-table-view-chevron margin_padding_0">
+					<li class="li_dianpu_top ">
+						<!--店铺顶部-->
+						<ul class="dianpu_top margin_padding_0">
+							<li class="dianpu_name margin_padding_0">
+								<span class="dianming">莜茗微定店</span><br/><span class="miaoshu">青山绿水,有机种养,传统工艺,品质卓越</span></li>
+							<!--<li class="dianpu_miaoshu"></li>-->
+							<li class="dianzhu_touxiang .margin_padding_0"><img src="img/test_head_3.png" /></li>
+						</ul>
+					</li>
+					<li class="li_item">
+						<div class="li_div">
+							<img class="shangpin_tupian" src="img/test_sp_1.png" />
+							<span class="shangpin_miaoshu">最后一批普洱茶出仓了,那香气简直醉了,瞧我...</span>
+							<div class="div_shangpin_bottom">
+								<img class="img_shangpin_maijia" src="img/test_head_2.png" />
+								<div class="div_maijia_dianzhu">
+
+									<span class="maijia_nicheng">东山普洱</span>
+									<span class="goumai_shijian">2016/08/09 13:40</span>
+								</div>
+								<div class="div_shuxian"></div>
+								<div class="div_goumai_cishu">
+									<img class="img_goumai_tubiao" src="img/ic_ys.png" />
+									<span>180</span>
+									<img class="img_shoucang_tubiao" src="img/ic_sc.png" />
+									<span>1.8k</span>
+								</div>
+
+							</div>
+						</div>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<script src="js/mui.min.js"></script>
+		<script>
+			mui.init({
+				pullRefresh: {
+					container: '#pullrefresh',
+					down: {
+						callback: pulldownRefresh
+					},
+					up: {
+						contentrefresh: '正在加载...',
+						callback: pullupRefresh
+					}
+				}
+			});
+			/**
+			 * 下拉刷新具体业务实现
+			 */
+			function pulldownRefresh() {
+				setTimeout(function() {
+					var table = document.body.querySelector('.mui-table-view');
+					var cells = document.body.querySelectorAll('.mui-table-view-cell');
+					//					for (var i = cells.length, len = i + 3; i < len; i++) {
+					//						var li = document.createElement('li');
+					//						li.className = 'mui-table-view-cell';
+					//						li.innerHTML = '<a class="mui-navigate-right">Item ' + (i + 1) + '</a>';
+					//						//下拉刷新，新纪录插到最前面；
+					//						table.insertBefore(li, table.firstChild);
+					//					}
+					mui('#pullrefresh').pullRefresh().endPulldownToRefresh(); //refresh completed
+				}, 1500);
+			}
+			var count = 0;
+			/**
+			 * 上拉加载具体业务实现
+			 */
+			function pullupRefresh() {
+				setTimeout(function() {
+					mui('#pullrefresh').pullRefresh().endPullupToRefresh((++count > 2)); //参数为true代表没有更多数据了。
+					var table = document.body.querySelector('.mui-table-view');
+					var cells = document.body.querySelectorAll('.mui-table-view-cell');
+					for(var i = cells.length, len = i + 3; i < len; i++) {
+
+						var li = document.createElement('li');
+
+						li.className = 'li_item';
+
+						li.innerHTML = '<div class="li_div">' +
+							'<img class="shangpin_tupian" src="img/test_sp_1.png" />' +
+							'<span class="shangpin_miaoshu">最后一批普洱茶出仓了,那香气简直醉了,瞧我...</span>' +
+							'<div class="div_shangpin_bottom">' + '<img class="img_shangpin_maijia" src="img/test_head_2.png" />' +
+							'<div class="div_maijia_dianzhu">' + '<span class="maijia_nicheng">东山普洱</span>' +
+							'<span class="goumai_shijian">2016/08/09 13:40</span>' + '</div>' + '<div class="div_shuxian">' + '</div>' +
+							'<div class="div_goumai_cishu">' + '<img class="img_goumai_tubiao" src="img/ic_ys.png" />' + '<span>180</span>' +
+							'<img class="img_shoucang_tubiao" src="img/ic_sc.png" />' +
+							'<span>1.8k</span>' + '</div></div></div>';
+
+						table.appendChild(li);
+
+					}
+				}, 1500);
+			}
+			if(mui.os.plus) {
+				mui.plusReady(function() {
+					setTimeout(function() {
+						mui('#pullrefresh').pullRefresh().pullupLoading();
+					}, 1000);
+
+				});
+			} else {
+				mui.ready(function() {
+					mui('#pullrefresh').pullRefresh().pullupLoading();
+				});
+			}
+		</script>
+	</body>
+
+</html>

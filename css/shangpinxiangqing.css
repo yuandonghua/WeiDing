@@ -1,0 +1,90 @@
+ul {
+	list-style: none;
+}
+
+* {
+	margin: 0px;
+	padding: 0px;
+}
+
+.div_content_top {
+	background: #fff;
+}
+
+.ul_shangpin_top li {
+	width: 100%;
+}
+
+.p_shangpin_bt {
+	color: #303030;
+	margin: 10px;
+	font-weight: 700;
+	font-size: 14px;
+}
+
+.fuhao {
+	color: orange;
+	font-size: 10px;
+	margin-left: 10px;
+}
+
+.jiage {
+	color: orange;
+	font-size: 18px;
+	font-weight: 700;
+}
+
+.div_content_dianpu {
+	background: #fff;
+	margin-top: 10px;
+	width: 100%;
+	height: 50px;
+}
+
+.ul_dianpu {
+	width: 100%;
+	height: 50px;
+}
+
+.dianzhu_tx {
+	height: 30px;
+	margin: 10px;
+}
+
+.ul_dianpu li {
+	float: left;
+}
+
+.p_dianpuming {
+	margin-top: 12px;
+	font-size: 14px;
+	color: #303030;
+	font-weight: 700;
+}
+
+#ul_dianpu_last_li {
+	margin: 13px;
+	float: right;
+}
+
+#you_jiantou {
+	color: #303030;
+}
+
+.ul_shangpin_quanbu_tp {
+	background: #fff;
+	width: 100%;
+	margin-top: 10px;
+}
+
+.ul_shangpin_quanbu_tp li {
+
+
+	width: 100%;
+}
+
+.ul_shangpin_quanbu_tp li img {
+	width: 100%;
+	margin: -2px;
+
+}

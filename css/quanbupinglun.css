@@ -1,0 +1,17 @@
+
+.mui-content>.mui-table-view:first-child{
+	margin: 0 0 10px ;
+}
+#shangpin_tp{
+	width: 60px;
+	height: 60px;
+	margin-right: 10px;
+}
+.woyaopinglun{
+	line-height: 44px;
+	color: #000000;
+	font-weight: 700;
+}
+.mui-icon-left-nav{
+	color: #000000;
+}

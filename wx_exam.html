@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+		<script src="js/wxutil.js"></script>
+		<title>微信用户集成示例</title>
+	</head>
+<body>
+
+<div class="container" id="userDiv">
+	<table>
+		<tr>
+		<td>用户id</td>
+		<td id="userId"></td>
+		</tr>
+		<tr>
+		<td>用户名</td>
+		<td id="userName"></td>
+		</tr>
+		<tr>
+		<td>openid</td>
+		<td id="openid"></td>
+		</tr>
+		<tr>
+		<td>性别</td>
+		<td id="sex"></td>
+		</tr>
+		<tr>
+		<td>头像</td>
+		<td><img src="" style="width:100px;height: 100px;" id="avatar"/></td>
+		</tr>
+	</table>
+
+</div>
+
+<br/>
+<input id="dbk_check" value="查看用户信息原始json串" type="button" onclick="showUserJson()"/>
+<script>
+//由于微信认证过程需要时间，所以将用户信息获得作成一个事件，监听这个事件就能保证获取用户信息
+document.addEventListener("userReadyEvent",function(){
+	$('#userId').html(user.user_id);
+	$('#userName').html(user.user_name);
+	$('#openid').html(user.wx_openid);
+	$('#sex').html(user.sex);
+	$('#avatar').attr('src',user.avatar);
+});
+
+function showUserJson(){
+	mui.getJSon
+	var userStr = JSON.stringify(user);
+	alert("userJson=="+userStr);
+}
+</script>
+</body>
+</html>

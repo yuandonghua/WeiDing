@@ -1,0 +1,190 @@
+* {
+	font-family: "Lanting black simplified founder";
+	margin: 0;
+	padding: 0;
+	border: none;
+}
+
+.margin_padding_0 {
+	margin: 0px;
+	padding: 0px;
+}
+
+
+/*没有商品是的提示*/
+
+#tishi {
+	text-align: center;
+}
+
+.mui-table-view {
+	background: transparent
+}
+
+#header a {
+	color: #000000;
+}
+
+#sousuo {}
+
+#div_fenxiang {
+	position: fixed;
+	top: 16px;
+	right: 6px;
+}
+
+.mui-popover {
+	width: 120px;
+	height: 100px;
+}
+
+.mui-scroll {
+	/*padding-bottom: 51px;*/
+	margin-bottom: 51px;
+}
+
+.li_div {
+	/*商品条目的每个div*/
+	background: #fff;
+	margin: 10px 10px 0px 10px;
+	padding-bottom: 20px;
+	float: left;
+	border-radius: 5px;
+}
+
+.li_dianpu_top {
+	/*顶部店家的li*/
+	height: 90px;
+	/*margin-bottom: 20px;*/
+}
+
+.dianpu_top {
+	/*float: left;*/
+	width: 100%;
+	height: 100px;
+	padding: 10px 10px 0 10px;
+	list-style: none;
+	background: #fff;
+}
+
+.dianpu_name {
+	float: left;
+	width: 270px;
+	height: 90px;
+}
+
+.dianming {
+	font-weight: 700;
+	font-size: 30px;
+	line-height: 40px;
+}
+.dianzhu_touxiang{
+	margin-top: 10px;
+}
+.miaoshu {
+	font-size: 14px;
+}
+
+.dianzhu_touxiang {
+	float: right;
+}
+
+.dianzhu_touxiang img {
+	width: 60px;
+}
+
+.shangpin_tupian {
+	/*商品图片*/
+	width: 100%;
+}
+
+.shangpin_miaoshu {
+	/*商品描述*/
+	width: 100%;
+	margin-left: 20px;
+	margin-right: 20px;
+	font-size: 14px;
+	overflow: hidden;
+	text-overflow: hidden;
+}
+
+.div_shangpin_bottom {
+	/*商品描述下面的div*/
+	width: 100%;
+	padding-left: 10%;
+	padding-right: 10%;
+	margin-top: 10px;
+	float: left;
+}
+
+.img_shangpin_maijia {
+	/*商品下面买家的头像*/
+	width: 30px;
+	float: left;
+	margin-right: 10px;
+}
+
+.div_maijia_dianzhu {
+	/*买家昵称和时间的div*/
+	width: 100px;
+	height: 30px;
+	float: left;
+}
+
+.maijia_nicheng {
+	/*买家昵称*/
+	width: 100px;
+	font-size: 12px;
+	line-height: 12px;
+	float: left;
+}
+
+.goumai_shijian {
+	width: 80px;
+	/*购买时间*/
+	font-size: 10px;
+}
+
+.div_shangpin_bottom .div_shuxian {
+	/*竖线*/
+	width: 2px;
+	height: 26px;
+	margin: 2px 0px;
+	background: #aaa;
+	float: left;
+}
+
+.div_goumai_cishu {
+	/*购买和收藏的div*/
+	width: 100px;
+	float: right;
+	height: 30px;
+	padding-top: 5px;
+}
+
+.div_goumai_cishu img {
+	width: 14px;
+}
+
+.div_goumai_cishu span {
+	font-size: 14px;
+	/*margin-top: 7px;*/
+	/*line-height: 30px;*/
+}
+
+.footer .mui-tab-item span {
+	color: #303030;
+}
+
+.footer .mui-active span {
+	color: #fb2525;
+}
+
+.mui-icon p {
+	color: #000000;
+	float: right;
+	font-size: 16px;
+	font-weight: 600;
+	line-height: 24px;
+	margin: 0;
+}

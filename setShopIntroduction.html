@@ -1,0 +1,83 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="css/mui.min.css">
+		<script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js">
+		</script>
+		<script type="text/javascript" src="js/main.js">
+		</script>
+		<script src="js/wxutil.js">
+		</script>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-icon mui-icon-left-nav mui-pull-left" href="setting.html"></a>
+			<h1 class="mui-title">设置微集介绍</h1>
+		</header>
+		<div class="mui-content">
+
+			<div class="mui-input-row" style="margin: 10px 5px;">
+				<textarea id="textarea" rows="5" placeholder="请填写微集介绍"></textarea>
+			</div>
+
+			<div class="mui-button-row">
+				<button type="button" class="mui-btn mui-btn-primary" onclick="submitIntroduction()">提交</button>&nbsp;&nbsp;
+
+			</div>
+
+		</div>
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript">
+			mui.init();
+
+			document.addEventListener("userReadyEvent", function() {
+
+				console.log("user_id:" + user.user_id);
+			});
+
+			//点击提交
+			function submitIntroduction() {
+
+				var descr = document.getElementById("textarea").value;
+				if(descr == "") {
+					mui.toast("介绍不能为空");
+					return;
+				}
+				console.log("store_id:" + user.store_id);
+				if(user.store_id != null) {
+					//提交数据
+					$.ajax({
+						url: "http://ifc.dressbook.cn/wtWdStoreUpd.jsonp",
+						data: {
+							store_id: user.store_id,
+							descr: descr,
+							title:null
+
+						},
+						type: "POST",
+						async: true,
+						dataType: 'JSONP',
+						success: function(data) {
+							console.log("获取到数据:"+JSON.stringify(data));
+							if(data.code == 1) {
+
+								//跳转到设置界面
+								window.location.href = SERVER + 'setting.html';
+							}
+
+						}
+					});
+				} else {
+
+				}
+			};
+		</script>
+	</body>
+
+</html>

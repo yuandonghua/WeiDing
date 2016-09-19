@@ -1,0 +1,79 @@
+.mui-content>.mui-table-view:first-child {
+	margin-top: 0px;
+}
+
+.mui-media-body {
+	padding: 10px;
+}
+
+.mui-table-view-chevron .mui-table-view-cell {
+	padding: 0;
+}
+
+.mui-input-row {
+	margin-top: 10px;
+}
+
+#name {
+	margin: 0;
+}
+
+#a_save {
+	font-size: 14px;
+	color: #303030;
+	height: 44px;
+	line-height: 24px;
+}
+
+#setmeal_introduce {
+	margin: 10px 0 0;
+}
+
+#price {
+	width: 120px;
+	line-height: 21px;
+	height: 40px;
+	padding: 10px 15px;
+	-webkit-user-select: text;
+	border: 1px solid rgba(0, 0, 0, .2);
+	border-radius: 3px;
+	outline: 0;
+	background-color: #fff;
+	-webkit-appearance: none;
+}
+#img_add{
+	margin-left: 40%;
+
+}
+#div_prompt{
+	margin: 10px;
+	font-size: 12px;
+	color: #909090;
+}
+
+
+#div_goods_title_pic {
+	margin-top: 2px;
+	padding: 10px;
+	background: white;
+}
+
+#btn_change_pic {
+	color: #fff;
+	border: 1px solid #fc6666;
+	background-color: #fc6666;
+	float: right;
+	padding: 2px 12px;
+	font-size: 12px;
+}
+
+#div_pic {
+	width: 100%;
+	background: white;
+}
+
+#img_pic {
+	margin-left: 30%;
+	width: 40%;
+}
+

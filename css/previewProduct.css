@@ -1,0 +1,46 @@
+.mui-content>.mui-table-view:first-child {
+	margin-top: 0px;
+}
+#a_item{
+	padding-right: 10px;
+}
+#img_goods {
+	line-height: 80px;
+	max-width: 80px;
+	height: 80px
+}
+
+#desc {
+	color: #303030;
+}
+
+#price {
+	width: 180px;
+	color: #db5615;
+	font-size: 16px;
+	margin: 5px 0 10px;
+	float: left;
+}
+#div_goods_content{
+	padding-right: 20px;
+}
+#div_setmeal{
+	padding-left: 10px;
+	margin-top: 10px;
+    height: 44px;
+    line-height: 44px;
+    background: white;
+}
+#btn_add_setmeal{
+	color: #fff;
+    border: 1px solid #fc6666;
+    background-color: #fc6666;
+    float: right;
+    margin-top: 10px;
+    margin-right: 10px;
+    padding: 2px 12px;
+    font-size: 12px;
+}
+#ul_setmeal{
+	margin-top: 2px;
+}

@@ -1,0 +1,307 @@
+<!doctype html>
+<html lang="en" class="feedback">
+
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+
+		<link rel="stylesheet" type="text/css" href="css/mui.min.css" />
+		<link rel="stylesheet" type="text/css" href="css/fadongtai.css" />
+		<script src="http://apps.bdimg.com/libs/angular.js/1.4.6/angular.min.js"></script>
+		<script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+		<script src="js/wxutil.js"></script>
+		<script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js">
+		</script>
+	</head>
+
+	<body ng-app="myApp" ng-controller="myCtl">
+		<header class="mui-bar mui-bar-nav">
+			<a class=" mui-icon mui-icon-left-nav mui-pull-left" href="dynamic.html?goods_id={{goods_id}}"></a>
+			<button id="submit" class="mui-btn mui-btn-blue mui-btn-link mui-pull-right">发布</button>
+			<!--<h1 class="mui-title">发商品动态</h1>-->
+			<h1 class="mui-title">发动态</h1>
+		</header>
+		<div class="mui-content" >
+
+			<div class="row mui-input-row">
+				<textarea id='desc' class="mui-input-clear question" placeholder="动态文字200字以内..."></textarea>
+			</div>
+			<p>图片(至少一张,总大小10M以下)</p>
+
+			<!--动态配图-->
+			<ul id="ul_peitu" class="mui-table-view">
+				<li id="li_add">
+					<div class="row image-list image-item" ng-click="clickOpen()"></div>
+				</li>
+				<li id="li_first">
+
+					<img id="img_first">
+
+				</li>
+				<li id="li_second">
+
+					<img id="img_second">
+
+				</li>
+				<li id="li_third">
+
+					<img id="img_third">
+
+				</li>
+			</ul>
+			<!--<input type="file" accept="image/*" id="capture" capture="camera" class="row image-list">-->
+
+		</div>
+		<script src="js/mui.min.js"></script>
+		<!--<script src="js/fadongtai.js" type="text/javascript" charset="utf-8"></script>-->
+		<script type="text/javascript">
+			mui.init();
+			mui('.mui-scroll-wrapper').scroll();
+		</script>
+		<script type="text/javascript" src="js/fadongtai.js">
+		</script>
+		<script type="text/javascript">
+			var goods_id = getQueryString('goods_id');
+
+			var myApp = angular.module('myApp', []);
+
+			myApp.controller('myCtl', function($scope, $http) {
+
+				//由于微信认证过程需要时间，所以将用户信息获得作成一个事件，监听这个事件就能保证获取用户信息
+				document.addEventListener("userReadyEvent", function() {
+					$scope.goods_id = goods_id;
+					console.log("goods_id:"+$scope.goods_id);
+					
+					$scope.user = user;
+
+					//获取微信分享配置信息
+					$http.jsonp('http://ifc.dressbook.cn/weXConfigSignGet.jsonp?callback=JSON_CALLBACK&url=' + encodeURIComponent(location.href))
+						.success(function(response) {
+							$scope.wxinfo = response.info;
+
+
+							wx.config({
+								debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+								appId: 'wxcded79a899c9ef25', // 必填，公众号的唯一标识
+								timestamp: $scope.wxinfo.timestamp, // 必填，生成签名的时间戳
+								nonceStr: $scope.wxinfo.nonceStr, // 必填，生成签名的随机串
+								signature: $scope.wxinfo.signature, // 必填，签名，见附录1
+								jsApiList: ['chooseImage', 'uploadImage'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+
+							});
+							wx.ready(function() {
+								// config信息验证后会执行ready方法，所有接口调用都必须在config接口获得结果之后，
+								//config是一个客户端的异步操作，所以如果需要在页面加载时就调用相关接口，
+								//则须把相关接口放在ready函数中调用来确保正确执行。对于用户触发时才调用的接口，
+								//则可以直接调用，不需要放在ready函数中。
+								mui.toast('可以开始上传图片了');
+								$scope.imgs = new Array();
+								//打开相册
+								$scope.clickOpen = function() {
+
+									if($scope.imgs.length >= 3) {
+										mui.toast('最多选择3张图片');
+									} else {
+										var size = $scope.imgs.length;
+
+										var count = 3 - size;
+										wx.chooseImage({
+											count: count, // 默认9
+											sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
+											sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
+											success: function(res) {
+												var ids = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
+
+												if(ids.length > 1) {
+
+													var m = 0;
+
+													for(var i = size; i < 3; i++) {
+														if(ids.length > m) {
+
+															$scope.imgs.push(ids[m]);
+
+															m++;
+
+														}
+
+													}
+												} else if(ids.length == 1) {
+
+													$scope.imgs.push(ids[0]);
+												} else {
+
+												}
+												if($scope.imgs.length > 0) {
+
+													document.getElementById('img_first').src = $scope.imgs[0];
+												}
+												if($scope.imgs.length > 1) {
+
+													document.getElementById('img_second').src = $scope.imgs[1];
+												}
+												if($scope.imgs.length > 2) {
+
+													document.getElementById('img_third').src = $scope.imgs[2];
+												}
+
+											}
+										});
+									}
+								};
+								//点击发布
+								document.getElementById('submit').addEventListener('tap', function(event) {
+								
+									sendData($scope.imgs, $scope.user, goods_id);
+
+								});
+
+								function sendData(imgs, user, goods_id) {
+
+									var desc = document.getElementById('desc');
+									var content = desc.value;
+									if(content == '') {
+										return mui.toast('请填写动态文字');
+									}
+									if(content.length > 200) {
+										return mui.toast('信息超长,请重新填写~')
+									}
+
+									var size = imgs.length;
+									if(size == 0) {
+										return mui.toast('至少选择一张图片');
+									}
+								
+									//开始上传图片到微信服务器
+									if(size == 1) {
+										var media_ids = new Array();
+										//上传图片到微信服务器
+										wx.uploadImage({
+											localId: $scope.imgs[0], // 需要上传的图片的本地ID，由chooseImage接口获得
+											isShowProgressTips: 1, // 默认为1，显示进度提示
+											success: function(res) {
+												var serverId0 = res.serverId; // 返回图片的服务器端ID
+
+												media_ids.push(serverId0);
+										
+												$.ajax({
+													url: "http://ifc.dressbook.cn/wtWdCmtPostsSubmit.jsonp",
+													data: {
+														user_id: user.user_id,
+														content: content,
+														goods_id: goods_id,
+														media_ids: '' + media_ids
+													},
+													type: "POST",
+													async: true,
+													dataType: 'JSONP',
+													success: function(data, status) {
+
+														mui.toast('动态发布成功');
+														location.href = 'dynamic.html?goods_id=' + goods_id;
+													}
+												});
+											}
+										});
+									} else if(size == 2) {
+										var media_ids = new Array();
+
+										wx.uploadImage({
+											localId: $scope.imgs[0], // 需要上传的图片的本地ID，由chooseImage接口获得
+											isShowProgressTips: 1, // 默认为1，显示进度提示
+											success: function(res) {
+												var serverId0 = res.serverId; // 返回图片的服务器端ID
+
+												media_ids.push(serverId0);
+
+												wx.uploadImage({
+													localId: $scope.imgs[1], // 需要上传的图片的本地ID，由chooseImage接口获得
+													isShowProgressTips: 1, // 默认为1，显示进度提示
+													success: function(res) {
+														var serverId1 = res.serverId; // 返回图片的服务器端ID
+
+														media_ids.push(serverId1);
+
+														$.ajax({
+															url: "http://ifc.dressbook.cn/wtWdCmtPostsSubmit.jsonp",
+															data: {
+																user_id: user.user_id,
+																content: content,
+																goods_id: goods_id,
+																media_ids: '' + media_ids
+															},
+															type: "POST",
+															async: true,
+															dataType: 'JSONP',
+															success: function(data, status) {
+
+																mui.toast('动态发布成功');
+																location.href = 'dynamic.html?goods_id=' + goods_id;
+															}
+														});
+													}
+												});
+											}
+										});
+									}
+									if(size == 3) {
+										var media_ids = new Array();
+
+										wx.uploadImage({
+											localId: $scope.imgs[0], // 需要上传的图片的本地ID，由chooseImage接口获得
+											isShowProgressTips: 1, // 默认为1，显示进度提示
+											success: function(res) {
+												var serverId0 = res.serverId; // 返回图片的服务器端ID
+
+												media_ids.push(serverId0);
+
+												wx.uploadImage({
+													localId: $scope.imgs[1], // 需要上传的图片的本地ID，由chooseImage接口获得
+													isShowProgressTips: 1, // 默认为1，显示进度提示
+													success: function(res) {
+														var serverId1 = res.serverId; // 返回图片的服务器端ID
+
+														media_ids.push(serverId1);
+
+														wx.uploadImage({
+															localId: $scope.imgs[2], // 需要上传的图片的本地ID，由chooseImage接口获得
+															isShowProgressTips: 1, // 默认为1，显示进度提示
+															success: function(res) {
+																var serverId2 = res.serverId; // 返回图片的服务器端ID
+
+																media_ids.push(serverId2);
+
+																$.ajax({
+																	url: "http://ifc.dressbook.cn/wtWdCmtPostsSubmit.jsonp",
+																	data: {
+																		user_id: user.user_id,
+																		content: content,
+																		goods_id: goods_id,
+																		media_ids: '' + media_ids
+																	},
+																	type: "POST",
+																	async: true,
+																	dataType: 'JSONP',
+																	success: function(data, status) {
+
+																		mui.toast('动态发布成功');
+																		location.href = 'dynamic.html?goods_id=' + goods_id;
+																	}
+																});
+															}
+														});
+													}
+												});
+											}
+										});
+									}
+								}
+							});
+
+						});
+				});
+			});
+		</script>
+	</body>
+
+</html>

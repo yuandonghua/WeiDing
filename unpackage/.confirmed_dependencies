@@ -1,0 +1,110 @@
+{
+	"tab-webview-main.html": {
+		"resources": [
+			"js/main.js",
+			"css/weiding.css",
+			"img/test_head_3.png",
+			"js/mui.min.js",
+			"img/ic_ys.png",
+			"img/ic_sc.png",
+			"fonts/mui.ttf",
+			"css/mui.min.css",
+			"dongtai.html"
+		],
+		"refer": [
+			"dongtai.html"
+		]
+	},
+	"dongtai.html": {
+		"resources": [
+			"img/test_head_2.png",
+			"img/arrow_right.png",
+			"img/test_head_1.png",
+			"img/ic_menu.png",
+			"img/ic_share.png",
+			"img/arrow_left.png",
+			"css/main.css",
+			"img/ic_pl.png",
+			"img/ic_more.png",
+			"img/ic_sp.png",
+			"css/iconfont.css",
+			"img/test_sp_1.jpg",
+			"js/main.js",
+			"img/ic_sc.png",
+			"js/mui.min.js",
+			"img/ic_ys.png",
+			"css/mui.min.css",
+			"tab-webview-main.html",
+			"css/dongtai.css",
+			"fonts/mui.ttf",
+			"shangpinquanbupinglun.html",
+			"index.html"
+		],
+		"refer": [
+			"tab-webview-main.html",
+			"shangpinquanbupinglun.html",
+			"index.html"
+		]
+	},
+	"index.html": {
+		"resources": [
+			"js/main.js",
+			"css/weiding.css",
+			"js/wxutil.js",
+			"img/test_head_3.png",
+			"js/mui.min.js",
+			"img/ic_ys.png",
+			"img/ic_sc.png",
+			"fonts/mui.ttf",
+			"css/mui.min.css",
+			"dongtai.html",
+			"css/iconfont.css",
+			"fonts/iconfont.ttf",
+			"imgs/out.png",
+			"js/center.js",
+			"imgs/me.png",
+			"imgs/guanli.png",
+			"css/bootstrap.css",
+			"imgs/logo.png",
+			"css/center.css",
+			"js/bootstrap-treeview.js",
+			"js/relation_tree.js",
+			"imgs/set.png",
+			"imgs/�\u0005.png",
+			"js/mui.view.js",
+			"imgs/钱包.png",
+			"sousuo.html"
+		],
+		"refer": [
+			"dongtai.html",
+			"sousuo.html"
+		]
+	},
+	"shangpinquanbupinglun.html": {
+		"resources": [
+			"css/quanbupinglun.css",
+			"js/main.js",
+			"js/mui.min.js",
+			"fonts/mui.ttf",
+			"css/iconfont.css",
+			"css/mui.min.css",
+			"dongtai.html"
+		],
+		"refer": [
+			"dongtai.html"
+		]
+	},
+	"sousuo.html": {
+		"resources": [
+			"js/mui.min.js",
+			"fonts/mui.ttf",
+			"css/mui.min.css",
+			"index.html",
+			"css/sousuo.css",
+			"js/main.js"
+		],
+		"refer": [
+			"index.html"
+		]
+	}
+}
